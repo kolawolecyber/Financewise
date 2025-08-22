@@ -2,7 +2,7 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL; // change to your backend po
 
 const signup = async (userData) => {
     try {
-    const res = await fetch(`${API_BASE}/auth/register`, {
+    const res = await fetch(`${API_BASE}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
@@ -20,7 +20,7 @@ const signup = async (userData) => {
 
  const login = async (credentials) => {
  try {
-    const res = await fetch(`${API_BASE}/auth/login`, {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials),
@@ -37,7 +37,7 @@ const signup = async (userData) => {
 };
  const fetchBudgets = async (token) => {
   try{
-  const res = await fetch(`${API_BASE}/budgets`, {
+  const res = await fetch(`${API_BASE}/api/budgets`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -51,7 +51,7 @@ const signup = async (userData) => {
 };
 
  const createBudget = async (token, form) => {
-  const res = await fetch(`${API_BASE}/budgets`, {
+  const res = await fetch(`${API_BASE}/api/budgets`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const signup = async (userData) => {
 
 const fetchExpenses = async (token) => {
   try {
-    const res = await fetch(`${API_BASE}/expenses`, {
+    const res = await fetch(`${API_BASE}/api/expenses`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
