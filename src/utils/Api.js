@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api"; // change to your backend port
+const API_BASE = import.meta.env.VITE_API_BASE_URL; // change to your backend port
 
 const signup = async (userData) => {
     try {
