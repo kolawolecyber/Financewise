@@ -8,13 +8,13 @@ const Profile = () => {
   const { user, token, setUser } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(user || {});
-  const [loading, setLoading] = useState(true); // ⬅️ NEW state for loading
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       if (!token) return;
       try {
-        setLoading(true); // start loading
+        setLoading(true);
         const res = await API.get("/api/profile/settings", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -23,7 +23,7 @@ const Profile = () => {
       } catch (err) {
         console.error("Failed to load user data", err);
       } finally {
-        setLoading(false); // stop loading
+        setLoading(false);
       }
     };
     fetchUser();
@@ -33,18 +33,18 @@ const Profile = () => {
     <div className="flex justify-center mt-10">
       <Navbar />
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center space-y-4">
-        
         {loading ? (
-          // Skeleton Loader (instead of blank UI)
+          // Skeleton Loader
           <div className="w-full animate-pulse flex flex-col items-center space-y-4">
             <div className="h-24 w-24 rounded-full bg-gray-300"></div>
-            <div className="h-4 w-32 bg-gray-300 rounded"></div>
-            <div className="h-3 w-40 bg-gray-200 rounded"></div>
+            <div className="h-5 w-32 bg-gray-300 rounded"></div>
+            <div className="h-4 w-40 bg-gray-200 rounded"></div>
             <div className="w-full mt-4 space-y-2">
               <div className="h-3 w-3/4 bg-gray-200 rounded"></div>
               <div className="h-3 w-2/3 bg-gray-200 rounded"></div>
               <div className="h-3 w-1/2 bg-gray-200 rounded"></div>
             </div>
+            <div className="h-10 w-full bg-gray-300 rounded mt-6"></div>
           </div>
         ) : (
           <>

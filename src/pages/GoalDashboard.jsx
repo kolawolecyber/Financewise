@@ -13,6 +13,7 @@ const GoalDashboard = () => {
   const [goals, setGoals] = useState([]);
   const [filterMonth, setFilterMonth] = useState("");
   const [filteredGoals, setFilteredGoals] = useState([]);
+  const [loading, setLoading] = useState(true); // 👈 added loading state
 
   // Fetch goals on mount or when token changes
   useEffect(() => {
@@ -25,6 +26,7 @@ const GoalDashboard = () => {
 
   const fetchGoals = async () => {
     try {
+      setLoading(true); // 👈 show skeleton while fetching
       const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/goals`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -40,6 +42,8 @@ const GoalDashboard = () => {
       }
     } catch (error) {
       console.error("Error fetching goals:", error);
+    } finally {
+      setLoading(false); // 👈 hide skeleton after fetching
     }
   };
 
@@ -52,15 +56,15 @@ const GoalDashboard = () => {
       return;
     }
 
-    const filtered = goals.filter((goal) =>
-      dayjs(goal.dueDate).format("MMMM") === selectedMonth
+    const filtered = goals.filter(
+      (goal) => dayjs(goal.dueDate).format("MMMM") === selectedMonth
     );
     setFilteredGoals(filtered);
   };
 
   return (
     <div className="p-4 max-w-5xl mx-auto">
-      <Navbar/>
+      <Navbar />
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Goal Dashboard</h1>
 
@@ -78,7 +82,21 @@ const GoalDashboard = () => {
         </select>
       </div>
 
-      {filteredGoals.length === 0 ? (
+      {/* Skeleton Loader */}
+      {loading ? (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-white shadow p-4 rounded border border-gray-200 animate-pulse"
+            >
+              <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-3" />
+              <div className="h-3 bg-gray-200 rounded w-3/4 mx-auto mb-2" />
+              <div className="h-3 bg-gray-200 rounded w-1/2 mx-auto" />
+            </div>
+          ))}
+        </div>
+      ) : filteredGoals.length === 0 ? (
         <p className="text-gray-600">No goals found for selected month.</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
