@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signup } from "../utils/Api";
 import { useNavigate,Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "",   confirmPassword: '',});
@@ -8,6 +9,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
         const navigate = useNavigate();
         const [errors, setErrors] = useState("");
+        const {signup:authSignup} = useAuth()
 
   const validate = () => {
     const { email, password, confirmPassword } = form;
@@ -35,6 +37,7 @@ const Signup = () => {
     const result = await signup(form);
     setLoading(false);
     if (result.token) {
+       authSignup(result.token);
       localStorage.setItem("token", result.token);
       setMessage("Signup successful!");
        setTimeout(() => navigate('/'), 200);
