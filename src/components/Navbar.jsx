@@ -13,6 +13,7 @@ const Navbar = () => {
   return (
     <>
     <nav className="flex gap-8 p-4 bg-gray-100">
+      <Link className="hover:underline mr-8" to="/">Home</Link>
       <Link className="hover:underline mr-8" to="/goals">Manage Goals</Link>
       <Link className="hover:underline mr-8" to="/goal-dashboard">Goal Overview</Link>
       <Link className="hover:underline mr-8 " to="/category">Category</Link>
