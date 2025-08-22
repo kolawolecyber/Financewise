@@ -1,7 +1,30 @@
-<>
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-<Link to="/goals">Manage Goals</Link>
-<Link to="/goal-dashboard">Goal Overview</Link>
-<Link to="/category">Category</Link>
-<Link to="/transaction">Transactions</Link>
-</>
+const Navbar = () => {
+  const { token, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  return (
+    <>
+      <Link to="/goals">Manage Goals</Link>
+      <Link to="/goal-dashboard">Goal Overview</Link>
+      <Link to="/category">Category</Link>
+      <Link to="/transaction">Transactions</Link>
+      <Link to="/profile">Profile</Link>
+
+      {token && (
+        <button onClick={handleLogout} style={{ marginLeft: "1rem", color: "red" }}>
+          Logout
+        </button>
+      )}
+    </>
+  );
+};
+
+export default Navbar;

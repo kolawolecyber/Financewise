@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchBudgets, createBudget, fetchExpenses } from "../utils/Api";
 import BudgetCardWithExpenses from "../components/BudgetCardWithExpense";
 import BudgetChart from "../components/BudgetChart"; 
+import Navbar from "../components/Navbar";
 
 const Dashboard = () => {
   const { token } = useAuth();
@@ -52,6 +53,7 @@ budgets.forEach((budget) => {
 });
   return (
     <div className="p-6 max-w-4xl mx-auto">
+      <Navbar/>
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
 
       {/* Budget Creation Form */}

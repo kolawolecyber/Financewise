@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import GoalDonut from "../components/GoalDonut";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -59,6 +60,7 @@ const GoalDashboard = () => {
 
   return (
     <div className="p-4 max-w-5xl mx-auto">
+      <Navbar/>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Goal Dashboard</h1>
 

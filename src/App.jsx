@@ -7,6 +7,9 @@ import Goals from './pages/Goals';
 import GoalDashboard from "./pages/GoalDashboard";
 import Transaction from './pages/Transaction';
 import Category from './pages/Category';
+import Profile from './pages/Profile';
+import UserSettings from './pages/UserSettings';
+
 
 
 function App() {
@@ -21,6 +24,8 @@ function App() {
           <Route path="/transactions" element={<Transaction/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/usersettings" element={<UserSettings />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import API from "../services/api";
+import Navbar from "../components/Navbar";
 import TransactionChart from "../components/TransactionChart";
 
 
@@ -91,6 +92,7 @@ const balance = totalIncome - totalExpense;
 
   return (
     <div className="max-w-2xl mx-auto p-6">
+      <Navbar/>
       <h1 className="text-2xl font-bold mb-4">Transactions</h1>
 
       <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow space-y-4 mb-6">

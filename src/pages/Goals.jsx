@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import API from "../services/api";
 
 import GoalDonut from "../components/GoalDonut";
@@ -168,6 +169,7 @@ const handleEditGoal = async (e, goalId) => {
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
+      <Navbar/>
       <h1 className="text-2xl font-bold mb-4">Your Financial Goals</h1>
 
       <form

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import Navbar from "../components/Navbar";
 import API from "../services/api";
 
 const Category = () => {
@@ -52,6 +53,7 @@ const Category = () => {
 
   return (
     <div className="max-w-xl mx-auto p-6">
+      <Navbar/>
       <h1 className="text-2xl font-bold mb-4">Manage Categories</h1>
 
       <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow space-y-4 mb-6">
