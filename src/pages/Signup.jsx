@@ -37,7 +37,7 @@ const Signup = () => {
     if (result.token) {
       localStorage.setItem("token", result.token);
       setMessage("Signup successful!");
-      setTimeout(() => navigate('/Login'), 200);
+       setTimeout(() => navigate('/'), 200);
       // navigate to dashboard if needed
     } else {
       setMessage(result.message || "Signup failed");
