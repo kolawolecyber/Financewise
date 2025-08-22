@@ -13,11 +13,11 @@ const Navbar = () => {
   return (
     <>
     <nav className="flex gap-8 p-4 bg-gray-100">
-      <Link className="hover:underline" to="/goals">Manage Goals</Link>
-      <Link className="hover:underline" to="/goal-dashboard">Goal Overview</Link>
-      <Link className="hover:underline" to="/category">Category</Link>
-      <Link className="hover:underline" to="/transaction">Transactions</Link>
-      <Link className="hover:underline" to="/profile">Profile</Link>
+      <Link className="hover:underline mr-8" to="/goals">Manage Goals</Link>
+      <Link className="hover:underline mr-8" to="/goal-dashboard">Goal Overview</Link>
+      <Link className="hover:underline mr-8 " to="/category">Category</Link>
+      <Link className="hover:underline mr-8" to="/transaction">Transactions</Link>
+      <Link className="hover:underline mr-8" to="/profile">Profile</Link>
 
       {token && (
         <button onClick={handleLogout} style={{ marginLeft: "1rem", color: "red" }}>
