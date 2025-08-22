@@ -9,17 +9,14 @@ export const AuthProvider = ({ children }) => {
     setToken(newToken);
     localStorage.setItem("token", newToken);
   };
- const signup = (newToken) => {
-    setToken(newToken);
-    localStorage.setItem("token", newToken);
-  };
+ 
   const logout = () => {
     setToken("");
     localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ token, login,signup, logout }}>
+    <AuthContext.Provider value={{ token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
