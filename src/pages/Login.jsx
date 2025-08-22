@@ -1,6 +1,6 @@
 import { useState} from "react";
 import { login } from "../utils/Api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
@@ -57,6 +57,7 @@ const Login = () => {
          {loading ? "Logging in..." : "Login"}
         </button>
         <p className="text-sm text-red-500 mt-2">{message}</p>
+        Dont have an account? <Link to="/signup">Signup</Link>
       </form>
     </div>
   );
