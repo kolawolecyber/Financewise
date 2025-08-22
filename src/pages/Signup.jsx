@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { signup } from "../utils/Api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 const Signup = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "",   confirmPassword: '',});
@@ -82,6 +82,7 @@ const Signup = () => {
         <p className="text-sm text-red-500 mt-2">{message}</p>
         {errors && <p className="text-sm text-red-500 mt-2">{errors}</p>}
       </form>
+      Already have an account? <Link to="/login">Sign In</Link>
     </div>
   );
 };
