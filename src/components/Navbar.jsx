@@ -16,7 +16,7 @@ const Navbar = () => {
       <Link className="hover:underline mr-8" to="/goals">Manage Goals</Link>
       <Link className="hover:underline mr-8" to="/goal-dashboard">Goal Overview</Link>
       <Link className="hover:underline mr-8 " to="/category">Category</Link>
-      <Link className="hover:underline mr-8" to="/transaction">Transactions</Link>
+      <Link className="hover:underline mr-8" to="/transactions">Transactions</Link>
       <Link className="hover:underline mr-8" to="/profile">Profile</Link>
 
       {token && (
