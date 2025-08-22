@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <>
-    <div className="flex gap-8 p-4 bg-gray-100">
+    <nav className="flex gap-8 p-4 bg-gray-100">
       <Link className="hover:underline" to="/goals">Manage Goals</Link>
       <Link className="hover:underline" to="/goal-dashboard">Goal Overview</Link>
       <Link className="hover:underline" to="/category">Category</Link>
@@ -24,7 +24,7 @@ const Navbar = () => {
           Logout
         </button>
       )}
-      </div>
+      </nav>
     </>
   );
 };
