@@ -25,7 +25,7 @@ const GoalDashboard = () => {
 
   const fetchGoals = async () => {
     try {
-      const res = await axios.get("/api/goals", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/goals`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

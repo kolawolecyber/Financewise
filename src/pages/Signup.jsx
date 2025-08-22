@@ -39,7 +39,7 @@ const Signup = () => {
     if (result.token) {
         
       setMessage("Signup successful!");
-       setTimeout(() => navigate('/login'), 400);
+       setTimeout(() => navigate('/login'), 500);
       // navigate to dashboard if needed
     } else {
       setMessage(result.message || "Signup failed");
