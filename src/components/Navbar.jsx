@@ -12,18 +12,19 @@ const Navbar = () => {
 
   return (
     <>
-    <div className="flex gap-6">
-      <Link to="/goals">Manage Goals</Link>
-      <Link to="/goal-dashboard">Goal Overview</Link>
-      <Link to="/category">Category</Link>
-      <Link to="/transaction">Transactions</Link>
-      <Link to="/profile">Profile</Link>
-</div>
+    <div className="flex gap-6 p-4 bg-gray-100">
+      <Link className="hover:underline" to="/goals">Manage Goals</Link>
+      <Link className="hover:underline" to="/goal-dashboard">Goal Overview</Link>
+      <Link className="hover:underline" to="/category">Category</Link>
+      <Link className="hover:underline" to="/transaction">Transactions</Link>
+      <Link className="hover:underline" to="/profile">Profile</Link>
+
       {token && (
         <button onClick={handleLogout} style={{ marginLeft: "1rem", color: "red" }}>
           Logout
         </button>
       )}
+      </div>
     </>
   );
 };
