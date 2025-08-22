@@ -12,12 +12,13 @@ const Navbar = () => {
 
   return (
     <>
+    <div className="flex gap-6">
       <Link to="/goals">Manage Goals</Link>
       <Link to="/goal-dashboard">Goal Overview</Link>
       <Link to="/category">Category</Link>
       <Link to="/transaction">Transactions</Link>
       <Link to="/profile">Profile</Link>
-
+</div>
       {token && (
         <button onClick={handleLogout} style={{ marginLeft: "1rem", color: "red" }}>
           Logout
