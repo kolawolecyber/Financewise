@@ -4,32 +4,27 @@ import API from "../services/api";
 import Navbar from "../components/Navbar";
 import TransactionChart from "../components/TransactionChart";
 
+
+
+
 const Transaction = () => {
   const { token } = useAuth();
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true); // 👈 Skeleton trigger
   const [form, setForm] = useState({
-    title: "",
-    amount: "",
-    type: "expense",
-    categoryId: "",
-    date: "",
-  });
+  title: "",
+  amount: "",
+  type: "expense",
+  categoryId: "",
+  date: ""  
+});
+
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        await Promise.all([fetchTransactions(), fetchCategories()]);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+    fetchTransactions();
+    fetchCategories();
   }, []);
+
 
   const fetchTransactions = async () => {
     const res = await API.get("/api/transactions", {
@@ -38,6 +33,7 @@ const Transaction = () => {
     setTransactions(res.data);
   };
 
+
   const fetchCategories = async () => {
     const res = await API.get("/api/categories", {
       headers: { Authorization: `Bearer ${token}` },
@@ -45,52 +41,58 @@ const Transaction = () => {
     setCategories(res.data);
   };
 
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const dateParts = form.date.split("-");
-      const formattedDate = `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`;
+        const dateParts = form.date.split("-");
+const formattedDate = `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`;
 
-      await API.post(
-        "/api/transactions",
-        { ...form, date: formattedDate },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setForm({ title: "", amount: "", type: "expense", categoryId: "", date: "" });
+      await API.post("/api/transactions", {
+  ...form,
+  date: formattedDate
+}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setForm({ title: "", amount: "", type: "expense", categoryId: "" });
       fetchTransactions();
     } catch (err) {
       console.error("Failed to create transaction", err);
     }
   };
 
-  const handleDelete = async (id) => {
+
+    const handleDelete = async (id) => {
     try {
       await API.delete(`/api/transactions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTransactions((prev) => prev.filter((cat) => cat.id !== id));
     } catch (err) {
-      console.error("Error deleting transaction", err);
+      console.error("Error deleting category", err);
     }
   };
+  
+const totalIncome = transactions
+  .filter(tx => tx.type === "income")
+  .reduce((sum, tx) => sum + tx.amount, 0);
 
-  const totalIncome = transactions
-    .filter((tx) => tx.type === "income")
-    .reduce((sum, tx) => sum + tx.amount, 0);
+const totalExpense = transactions
+  .filter(tx => tx.type === "expense")
+  .reduce((sum, tx) => sum + tx.amount, 0);
 
-  const totalExpense = transactions
-    .filter((tx) => tx.type === "expense")
-    .reduce((sum, tx) => sum + tx.amount, 0);
+const balance = totalIncome - totalExpense;
 
-  const balance = totalIncome - totalExpense;
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <Navbar />
+      <Navbar/>
       <h1 className="text-2xl font-bold mb-4">Transactions</h1>
 
       <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow space-y-4 mb-6">
@@ -112,21 +114,11 @@ const Transaction = () => {
           className="w-full border p-2 rounded"
           required
         />
-        <select
-          name="type"
-          value={form.type}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        >
+        <select name="type" value={form.type} onChange={handleChange} className="w-full border p-2 rounded">
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
-        <select
-          name="categoryId"
-          value={form.categoryId}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        >
+        <select name="categoryId" value={form.categoryId} onChange={handleChange} className="w-full border p-2 rounded">
           <option value="">-- Select Category --</option>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>
@@ -135,83 +127,60 @@ const Transaction = () => {
           ))}
         </select>
         <input
-          type="date"
-          name="date"
-          value={form.date}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
+  type="date"
+  name="date"
+  value={form.date}
+  onChange={handleChange}
+  className="w-full border p-2 rounded"
+/>
 
         <button className="bg-blue-600 text-white px-4 py-2 rounded">Add Transaction</button>
       </form>
 
-      {/* 👇 Skeleton or Loaded Transactions */}
-      {loading ? (
-        <div className="space-y-3 animate-pulse">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="bg-gray-200 h-16 rounded" />
-          ))}
-        </div>
-      ) : (
-        <ul className="space-y-3">
-          {transactions.map((t) => (
-            <li key={t.id} className="bg-gray-100 p-3 rounded shadow">
-              <div className="font-bold">{t.title}</div>
-              <div>₦{t.amount.toLocaleString()} | {t.type}</div>
-              <div className="text-sm text-gray-500">
-                {t.category?.name || "No Category"}
-                <div>
-                  <button
-                    onClick={() => handleDelete(t.id)}
-                    className="text-sm text-red-500 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </div>
+      <ul className="space-y-3">
+        {transactions.map((t) => (
+          <li key={t.id} className="bg-gray-100 p-3 rounded shadow">
+            <div className="font-bold">{t.title}</div>
+            <div>₦{t.amount.toLocaleString()} | {t.type}</div>
+            <div className="text-sm text-gray-500">
+              {t.category?.name || "No Category"}
+
+              <div>
+                 <button
+          onClick={() => handleDelete(t.id)}
+          className="text-sm text-red-500 hover:underline"
+        >
+          Delete
+        </button>
               </div>
-            </li>
-          ))}
-        </ul>
-      )}
+            </div>
+          </li>
+        ))}
+      </ul>
 
-      {/* 👇 Skeleton or Summary Table */}
-      {loading ? (
-        <div className="mt-6 animate-pulse">
-          <div className="bg-gray-200 h-20 rounded" />
-        </div>
-      ) : (
-        <div className="overflow-x-auto mb-6 mt-6">
-          <table className="min-w-full table-auto border text-sm text-left bg-white shadow rounded">
-            <thead>
-              <tr className="bg-gray-100 text-gray-700">
-                <th className="px-4 py-2 border">Total Income</th>
-                <th className="px-4 py-2 border">Total Expenses</th>
-                <th className="px-4 py-2 border">Balance</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="text-center font-semibold">
-                <td className="px-4 py-3 border text-green-600">
-                  ₦{totalIncome.toLocaleString()}
-                </td>
-                <td className="px-4 py-3 border text-red-600">
-                  ₦{totalExpense.toLocaleString()}
-                </td>
-                <td className="px-4 py-3 border text-blue-600">
-                  ₦{balance.toLocaleString()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      )}
+     <div className="overflow-x-auto mb-6">
+  <table className="min-w-full table-auto border text-sm text-left bg-white shadow rounded">
+    <thead>
+      <tr className="bg-gray-100 text-gray-700">
+        <th className="px-4 py-2 border">Total Income</th>
+        <th className="px-4 py-2 border">Total Expenses</th>
+        <th className="px-4 py-2 border">Balance</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="text-center font-semibold">
+        <td className="px-4 py-3 border text-green-600">₦{totalIncome.toLocaleString()}</td>
+        <td className="px-4 py-3 border text-red-600">₦{totalExpense.toLocaleString()}</td>
+        <td className="px-4 py-3 border text-blue-600">₦{balance.toLocaleString()}</td>
+        
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-      {/* 👇 Skeleton or Chart */}
-      {loading ? (
-        <div className="animate-pulse bg-gray-200 h-48 rounded" />
-      ) : (
-        <TransactionChart transactions={transactions} />
-      )}
+<TransactionChart transactions={transactions} />
+
     </div>
   );
 };
