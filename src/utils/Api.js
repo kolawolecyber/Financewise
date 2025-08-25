@@ -35,6 +35,27 @@ const signup = async (userData) => {
     return { message: err.message || "Network error" };
   }
 };
+
+
+
+ const fetchWithAuth = async (url, options = {}, token, logout) => {
+  const res = await fetch(`${{API_BASE}}${url}`, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status === 401) {
+    logout(); // auto logout if backend rejects
+    throw new Error("Session expired");
+  }
+
+  return res.json();
+};
+
+
  const fetchBudgets = async (token) => {
   try{
   const res = await fetch(`${API_BASE}/api/budgets`, {
@@ -78,4 +99,4 @@ const fetchExpenses = async (token) => {
 };
 
 // Add others later like createBudget, fetchTransactions, etc.
-export {login, signup, createBudget, fetchBudgets, fetchExpenses} 
+export {login, signup, createBudget, fetchBudgets, fetchExpenses, fetchWithAuth} 

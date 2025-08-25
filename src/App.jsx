@@ -9,13 +9,17 @@ import Transaction from './pages/Transaction';
 import Category from './pages/Category';
 import Profile from './pages/Profile';
 import UserSettings from './pages/UserSettings';
+import { AuthProvider } from './context/AuthContext';
+import GlobalLoader from './components/GlobalLoader';
 
 
 
 function App() {
  
    return (
+    <AuthProvider>
     <Router>
+      <GlobalLoader/>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/goals" element={<Goals/>} />
@@ -28,6 +32,7 @@ function App() {
         <Route path="/usersettings" element={<UserSettings />} />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 }
 

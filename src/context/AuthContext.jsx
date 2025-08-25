@@ -5,6 +5,16 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
+
+  useEffect(() => {
+  const wakeBackend = async () => {
+    setLoading(true);
+    await pingBackend(); // wakes Render from sleep
+    setLoading(false);
+  };
+  wakeBackend();
+}, []);
+
   const login = (newToken) => {
     setToken(newToken);
     localStorage.setItem("token", newToken);
