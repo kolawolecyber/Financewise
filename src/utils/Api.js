@@ -98,5 +98,5 @@ const fetchExpenses = async (token) => {
   }
 };
 
-// Add others later like createBudget, fetchTransactions, etc.
+// Add others later like createBudget, fetchTransactions, etc
 export {login, signup, createBudget, fetchBudgets, fetchExpenses, fetchWithAuth} 

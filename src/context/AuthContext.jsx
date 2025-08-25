@@ -4,7 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
-
+const [loading, setLoading] = useState(false);
 
   useEffect(() => {
   const wakeBackend = async () => {
@@ -14,6 +14,26 @@ export const AuthProvider = ({ children }) => {
   };
   wakeBackend();
 }, []);
+
+
+
+const apiFetch = async (url, options = {}) => {
+  setLoading(true);
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}${url}`, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+    });
+
+    if (!res.ok) throw new Error("Network error");
+    return await res.json();
+  } finally {
+    setLoading(false); // hide after request finishes
+  }
+};
 
   const login = (newToken) => {
     setToken(newToken);
@@ -26,7 +46,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, login, logout,apiFetch, loading }}>
       {children}
     </AuthContext.Provider>
   );
