@@ -10,6 +10,7 @@ import TransactionChart from "../components/TransactionChart";
 const Transaction = () => {
   const { token } = useAuth();
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({
   title: "",
@@ -21,7 +22,8 @@ const Transaction = () => {
 
 
   useEffect(() => {
-    fetchTransactions();
+    setLoading(true);
+    fetchTransactions().finally(()=>setLoading(false));
     fetchCategories();
   }, []);
 
@@ -138,7 +140,9 @@ const balance = totalIncome - totalExpense;
       </form>
 
       <ul className="space-y-3">
-        {transactions.map((t) => (
+         {loading ? (
+  <p className="text-gray-600">Loading Transaction...</p>
+) :(transactions.map((t) => (
           <li key={t.id} className="bg-gray-100 p-3 rounded shadow">
             <div className="font-bold">{t.title}</div>
             <div>₦{t.amount.toLocaleString()} | {t.type}</div>
@@ -155,7 +159,7 @@ const balance = totalIncome - totalExpense;
               </div>
             </div>
           </li>
-        ))}
+        )))}
       </ul>
 
      <div className="overflow-x-auto mb-6">

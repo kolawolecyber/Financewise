@@ -11,6 +11,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [budgets, setBudgets] = useState([]);
    const [expenses, setExpenses] = useState([]);
+     const [loadingBudgets, setLoadingBudgets] = useState(true); // 👈 loading states
+  const [loadingExpenses, setLoadingExpenses] = useState(true);
   const [form, setForm] = useState({
     title: "",
     amount: 0,
@@ -23,8 +25,12 @@ const Dashboard = () => {
     if (!token) {
       navigate('/Login');
     } else {
-      fetchBudgets(token).then((data) => setBudgets(data));
-       fetchExpenses(token).then((data) => setExpenses(data));
+       setLoadingBudgets(true);
+      setLoadingExpenses(true);
+      fetchBudgets(token).then((data) => setBudgets(data))
+      .finally(() => setLoadingBudgets(false));
+       fetchExpenses(token).then((data) => setExpenses(data)) 
+       .finally(() => setLoadingExpenses(false));
     }
   }, [token, navigate]);
 
@@ -107,7 +113,10 @@ budgets.forEach((budget) => {
 
       {/* Budgets + Expenses Display */}
       <div className="space-y-6">
-        {budgets.map((budget) => (
+         {loadingBudgets ? (
+          <p className="text-gray-500 animate-pulse">Loading budgets...</p>
+        ) :
+        budgets.map((budget) => (
          <BudgetCardWithExpenses
   key={budget.id}
   budget={budget}
@@ -120,10 +129,14 @@ budgets.forEach((budget) => {
         ))}
       </div>
       <div className="w-full h-64 md:h-80 mt-8">
+         {loadingExpenses ? (
+          <p className="text-gray-500 animate-pulse">Loading chart...</p>
+        ) :(
     <div className="w-full mt-8 border border-red-500" style={{ height: "300px" }}>
   <BudgetChart budgets={budgets} expensesByBudget={expensesByBudget} />
 </div>
-
+        )}
+        
 </div>
     </div>
   );

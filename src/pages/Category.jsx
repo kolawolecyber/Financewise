@@ -7,6 +7,7 @@ const Category = () => {
   const { token } = useAuth();
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({ name: "", type: "expense", color: "" });
+const [loading, setLoading] = useState(true);
 
   const fetchCategories = async () => {
     try {
@@ -16,7 +17,10 @@ const Category = () => {
       setCategories(res.data);
     } catch (err) {
       console.error("Error fetching categories", err);
+    } finally {
+      setLoading(false); // 👈 stop loading
     }
+    
   };
 
   useEffect(() => {
@@ -81,7 +85,10 @@ const Category = () => {
       </form>
 
      <ul className="space-y-2">
-  {categories.length === 0 ? (
+      {loading ? ( // 👈 show loading instead of "No categories"
+          <p className="text-gray-500 text-sm"> 📊Fetching categories...</p>
+        ) :
+  categories.length === 0 ? (
     <p className="text-gray-500 text-sm">No categories yet.</p>
   ) : (
     categories.map((cat) => (

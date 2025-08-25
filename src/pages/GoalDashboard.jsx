@@ -13,13 +13,16 @@ const GoalDashboard = () => {
   const [goals, setGoals] = useState([]);
   const [filterMonth, setFilterMonth] = useState("");
   const [filteredGoals, setFilteredGoals] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch goals on mount or when token changes
   useEffect(() => {
     if (!token) {
       navigate("/login");
     } else {
-      fetchGoals();
+      setLoading(true);
+      fetchGoals()
+      .finally(() => setLoading(false));
     }
   }, [token]);
 
@@ -78,7 +81,9 @@ const GoalDashboard = () => {
         </select>
       </div>
 
-      {filteredGoals.length === 0 ? (
+      {loading ? (
+  <p className="text-gray-600">Loading goals...</p>
+) :filteredGoals.length === 0 ? (
         <p className="text-gray-600">No goals found for selected month.</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
