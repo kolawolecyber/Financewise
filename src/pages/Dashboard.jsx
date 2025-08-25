@@ -114,7 +114,7 @@ budgets.forEach((budget) => {
       {/* Budgets + Expenses Display */}
       <div className="space-y-6">
          {loadingBudgets ? (
-          <p className="text-gray-500 animate-pulse">Loading budgets...</p>
+          <p className="text-gray-500 animate-pulse"> 📊 Loading budgets...</p>
         ) :
         budgets.map((budget) => (
          <BudgetCardWithExpenses

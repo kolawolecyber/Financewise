@@ -82,7 +82,7 @@ const GoalDashboard = () => {
       </div>
 
       {loading ? (
-  <p className="text-gray-600">Loading goals...</p>
+  <p className="text-gray-600"> 📊Loading goals...</p>
 ) :filteredGoals.length === 0 ? (
         <p className="text-gray-600">No goals found for selected month.</p>
       ) : (

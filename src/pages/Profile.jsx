@@ -7,10 +7,12 @@ import Navbar from "../components/Navbar";
 const Profile = () => {
   const { user, token, setUser } = useAuth();  // ⬅️ get token + setUser
   const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState(user || {}); // local state fallback
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       if (!token) return; // don’t call if no token
       try {
         const res = await API.get("/api/profile/settings", {
@@ -20,8 +22,10 @@ const Profile = () => {
         setUser(res.data);       // ⬅️ update context user if needed
       } catch (err) {
         console.error("Failed to load user data", err);
-      }
+      }finally {
+      setLoading(false); // 👈 stop loading
     };
+    }
     fetchUser();
   }, [token, setUser]);
 
@@ -31,7 +35,9 @@ const Profile = () => {
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center space-y-4">
         {/* Profile Picture */}
         <div className="h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-          {formData?.profilePic ? (
+            {loading ? ( // 👈 show loading instead of "No categories"
+          <p className="text-gray-500 text-sm"> 📊Fetching Data...</p>
+        ) : formData?.profilePic ? (
             <img
               src={formData.profilePic}
               alt={formData?.name}

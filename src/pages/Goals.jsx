@@ -215,7 +215,7 @@ const handleEditGoal = async (e, goalId) => {
        {/* Active Goals Section */}
 <h2 className="text-lg font-bold mt-8 mb-2">Active Goals</h2>
 {loading ? (
-  <p className="text-gray-600">Loading goals...</p>
+  <p className="text-gray-600"> 📊 Loading goals...</p>
 ) :activeGoals.length === 0 ? (
   <p className="text-gray-500">No active goals yet.</p>
 ) : (
