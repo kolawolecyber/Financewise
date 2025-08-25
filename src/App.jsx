@@ -41,7 +41,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <GlobalLoader />
+        <GlobalLoader loading={loading} />
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/goals" element={<Goals />} />
