@@ -75,7 +75,7 @@ const Dashboard = () => {
         </div>
 
         {/* Create Budget Form */}
-        <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-gray-100">
+        <div className="bg-white p-6 rounded-2xl shadow-lg mb-4 border border-gray-100">
           <h2 className="text-xl font-semibold mb-6 text-gray-800">➕ Create New Budget</h2>
           <form 
             onSubmit={handleSubmit} 
@@ -133,7 +133,7 @@ const Dashboard = () => {
               />
             </div>
 
-            <div className="md:col-span-2 lg:col-span-4 flex justify-end mt-4">
+            <div className="md:col-span-2 lg:col-span-4 flex justify-center mt-4">
               <button
                 type="submit"
                 className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition"
