@@ -62,19 +62,25 @@ const Dashboard = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <Navbar />
 
-      <div className="max-w-6xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
-        <p className="text-gray-500 mb-6">
-          Track your budgets and expenses at a glance.
-        </p>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Header */}
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold text-gray-800">📊 Dashboard</h1>
+          <p className="text-gray-500 mt-2">
+            Track your budgets, expenses, and financial health in one place.
+          </p>
+        </div>
 
         {/* Create Budget Form */}
-        <div className="bg-white p-6 rounded-2xl shadow-md mb-4">
-          <h2 className="text-lg font-semibold mb-4">Create New Budget</h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-gray-100">
+          <h2 className="text-xl font-semibold mb-6 text-gray-800">➕ Create New Budget</h2>
+          <form 
+            onSubmit={handleSubmit} 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
             <div>
               <label className="text-sm text-gray-600">Title</label>
               <input
@@ -83,7 +89,7 @@ const Dashboard = () => {
                 value={form.title}
                 onChange={handleChange}
                 placeholder="e.g. Food Budget"
-                className="w-full border p-2 rounded-lg mt-1"
+                className="w-full border p-3 rounded-xl mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
               />
             </div>
@@ -96,7 +102,7 @@ const Dashboard = () => {
                 value={form.amount}
                 onChange={handleChange}
                 placeholder="e.g. 5000"
-                className="w-full border p-2 rounded-lg mt-1"
+                className="w-full border p-3 rounded-xl mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
               />
             </div>
@@ -109,7 +115,7 @@ const Dashboard = () => {
                 value={form.category}
                 onChange={handleChange}
                 placeholder="e.g. Groceries"
-                className="w-full border p-2 rounded-lg mt-1"
+                className="w-full border p-3 rounded-xl mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
               />
             </div>
@@ -122,15 +128,15 @@ const Dashboard = () => {
                 value={form.month}
                 onChange={handleChange}
                 placeholder="e.g. August"
-                className="w-full border p-2 rounded-lg mt-1"
+                className="w-full border p-3 rounded-xl mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
               />
             </div>
 
-            <div className="md:col-span-2 flex justify-center">
+            <div className="md:col-span-2 lg:col-span-4 flex justify-end mt-4">
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold shadow"
+                className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition"
               >
                 + Create Budget
               </button>
@@ -138,8 +144,8 @@ const Dashboard = () => {
           </form>
         </div>
 
-        {/* Budgets */}
-        <div className="space-y-6">
+        {/* Budgets Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loadingBudgets ? (
             <p className="text-gray-500 animate-pulse">📊 Loading budgets...</p>
           ) : (
@@ -157,13 +163,13 @@ const Dashboard = () => {
         </div>
 
         {/* Budget Chart */}
-        <div className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Spending Overview</h2>
-          <div className="bg-white rounded-2xl shadow-md p-4">
+        <div className="mt-12">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">📈 Spending Overview</h2>
+          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
             {loadingExpenses ? (
-              <p className="text-gray-500 animate-pulse">📈 Loading chart...</p>
+              <p className="text-gray-500 animate-pulse">Loading chart...</p>
             ) : (
-              <div className="w-full h-72">
+              <div className="w-full h-80">
                 <BudgetChart budgets={budgets} expensesByBudget={expensesByBudget} />
               </div>
             )}
