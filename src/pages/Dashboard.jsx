@@ -74,7 +74,7 @@ const Dashboard = () => {
         {/* Create Budget Form */}
         <div className="bg-white p-6 rounded-2xl shadow-md mb-8">
           <h2 className="text-lg font-semibold mb-4">Create New Budget</h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div>
               <label className="text-sm text-gray-600">Title</label>
               <input
