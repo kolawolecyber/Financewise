@@ -1,11 +1,14 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL, // update if needed
+  baseURL: import.meta.env.VITE_API_BASE_URL, 
 });
+
+
 
 // Request interceptor: add token if available
 API.interceptors.request.use((config) => {
+  //using local storage for here now, might change it to cookie later
   const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -22,9 +25,9 @@ API.interceptors.response.use(
 
       // Clear token and redirect to login
       localStorage.removeItem("token");
-      window.location.href = "/Login"; // force redirect
+      window.location.href = "/login"; 
 
-      // Optionally show a message before redirect
+     
     }
 
     return Promise.reject(error);

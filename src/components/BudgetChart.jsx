@@ -11,10 +11,7 @@ const BudgetChart = ({ budgets, expensesByBudget }) => {
     };
   });
 
-  // ✅ Log after chartData is defined
-  console.log("Budgets:", budgets);
-  console.log("Expenses By Budget:", expensesByBudget);
-  console.log("Chart Data:", chartData);
+
 
   return (
     <div className="w-full h-68 md:h-80 mt-8 ">

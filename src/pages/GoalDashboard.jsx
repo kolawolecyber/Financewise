@@ -15,7 +15,7 @@ const GoalDashboard = () => {
   const [filteredGoals, setFilteredGoals] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch goals on mount or when token changes
+  // UseEffecy for Fetching goals on mount or when token changes
   useEffect(() => {
     if (!token) {
       navigate("/login");
@@ -34,7 +34,7 @@ const GoalDashboard = () => {
 
       if (Array.isArray(res.data)) {
         setGoals(res.data);
-        setFilteredGoals(res.data); // default to show all
+        setFilteredGoals(res.data); 
         console.log("Fetched goals:", res.data);
       } else {
         console.warn("Unexpected API response format", res.data);

@@ -26,10 +26,10 @@ const TransactionChart = ({ transactions }) => {
         grouped[month].expense += tx.amount;
       }
     });
-
+ 
     const finalData = Object.values(grouped).sort(
-      (a, b) => new Date(`01 ${a.month}`) - new Date(`01 ${b.month}`)
-    );
+  (a, b) => new Date(a.key) - new Date(b.key)
+);
 
     setChartData(finalData);
   }, [transactions]);

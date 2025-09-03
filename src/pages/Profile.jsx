@@ -24,8 +24,8 @@ const Profile = () => {
         console.error("Failed to load user data", err);
       }finally {
       setLoading(false); // 👈 stop loading
-    };
     }
+    };
     fetchUser();
   }, [token, setUser]);
 
@@ -33,15 +33,15 @@ const Profile = () => {
     <div className="flex justify-center mt-10">
       <Navbar />
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center space-y-4">
-        {/* Profile Picture */}
-        <div className="h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-            {loading ? ( // 👈 show loading instead of "No categories"
+        {/* Profile Picture but im yet to add storage for pics */}
+        <div className="h-5 w-5 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+            {loading ? ( 
           <p className="text-gray-500 text-sm"> 📊Fetching Data...</p>
         ) : formData?.profilePic ? (
             <img
               src={formData.profilePic}
               alt={formData?.name}
-              className="h-full w-full object-cover"
+              className="h-15 w-10 object-cover"
             />
           ) : (
             <span className="text-2xl font-semibold text-gray-600">

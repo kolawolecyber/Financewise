@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const UserSettings = () => {
   const { token } = useAuth();
+  const [previewSource, setPreviewSource] = useState('');
     const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -37,8 +38,22 @@ const UserSettings = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.put("/api/profile/settings", formData, {
+     
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("monthlyIncome", formData.monthlyIncome);
+    data.append("currency", formData.currency);
+    data.append("financialGoal", formData.financialGoal);
+
+    if (formData.profilePic && formData.profilePic instanceof File) {
+      data.append("profilePic", formData.profilePic); // key must match multer field name
+   
+    }
+    
+
+      await API.put("/api/profile/settings", data, {
         headers: { Authorization: `Bearer ${token}` },
+        "Content-Type": "multipart/form-data",
       });
       alert("Profile updated successfully!");
 navigate("/Profile")
@@ -48,6 +63,13 @@ navigate("/Profile")
     }
   };
 
+  const previewFile = (data)=>{
+const reader = new FileReader();
+reader.readAsDataURL(data);
+reader.onloadend=()=>{
+  setPreviewSource(reader.result);
+}
+  }
   return (
     <div className="max-w-2xl mx-auto p-6">
       <div className="bg-white shadow-lg rounded-2xl p-6">
@@ -92,7 +114,7 @@ navigate("/Profile")
             />
           </div>
 
-          {/* Currency */}
+          {/* Currency though you will just choose, im yet to make the currency effective in the whole page */}
           <div>
             <label className="block text-sm font-medium mb-1">Currency</label>
             <select
@@ -104,7 +126,7 @@ navigate("/Profile")
               <option value="NGN">NGN - Nigerian Naira</option>
               <option value="USD">USD - US Dollar</option>
               <option value="GBP">GBP - British Pound</option>
-              <option value="EUR">EUR - Euro</option>
+               <option value="EUR">EUR - Euro</option>
             </select>
           </div>
 
@@ -122,25 +144,22 @@ navigate("/Profile")
             />
           </div>
 
-          {/* Profile Picture */}
+          {/* Profile Picture, just or name of the picture, will later add storage for files */}
           <div>
             <label className="block text-sm font-medium mb-1">
               Profile Picture (URL)
             </label>
-            <input
-              type="text"
-              name="profilePic"
-              className="w-full border rounded-lg p-2"
-              value={formData.profilePic || ""}
-              onChange={handleChange}
-            />
-            {formData.profilePic && (
-              <img
-                src={formData.profilePic}
-                alt="Profile"
-                className="w-20 h-20 rounded-full mt-2 object-cover"
-              />
-            )}
+           <input
+    type="file"
+    name="profilePic"
+    className="w-full border rounded-lg p-2"
+    onChange={(e) =>
+     { const file= e.target.files[0];
+      setFormData({ ...formData, profilePic:file  });
+      previewFile(file)
+    }}
+  />
+  
           </div>
 
           {/* Submit */}
@@ -151,6 +170,12 @@ navigate("/Profile")
             Save Changes
           </button>
         </form>
+        {previewSource &&  (<img
+      src={previewSource}
+      alt="Profile"
+      className="w-10 h-10 rounded-full mt-2 object-cover"
+    />
+  )}
       </div>
     </div>
   );

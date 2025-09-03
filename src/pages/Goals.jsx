@@ -31,9 +31,9 @@ const achievedGoals = goals.filter(
   const [form, setForm] = useState({
     title: "",
     targetAmount: "",
-    dueDate: "", // Format: yyyy-MM-dd
+    dueDate: "", 
   });
-
+// useEffecy for Fetching ....
   useEffect(() => {
     if (!token) {
       navigate("/pages/login");
@@ -73,7 +73,7 @@ const handleSubmit = async (e) => {
     const goalData = {
       title: form.title,
       targetAmount: parseFloat(form.targetAmount),
-      targetDate: formattedDate, // now in MM/dd/yyyy
+      targetDate: formattedDate, // now updated to  MM/dd/yyyy
     };
 
     const res = await API.post("/api/goals", goalData, {
@@ -108,7 +108,7 @@ const handleEditGoal = async (e, goalId) => {
       {
         title: editForm.title,
         targetAmount: parseFloat(editForm.targetAmount),
-        targetDate: formattedDate, // Send correctly formatted date
+        targetDate: formattedDate, // Send correct formatted date
       },
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -235,21 +235,7 @@ const handleEditGoal = async (e, goalId) => {
           </div>
           <div className="text-xs text-right mt-1 text-gray-700">{progress}%</div>
 
-          <form onSubmit={(e) => handleAddToSavings(e, goal.id)} className="flex mt-2 gap-2">
-            <input
-              type="number"
-              value={amountsToSave[goal.id] || ""}
-              onChange={(e) =>
-                setAmountsToSave((prev) => ({
-                  ...prev,
-                  [goal.id]: e.target.value,
-                }))
-              }
-              placeholder="₦ to save"
-              className="border p-1 rounded w-1/2"
-            />
-            <button className="bg-green-600 text-white px-2 py-1 rounded text-sm">Add</button>
-          </form>
+          
 <button
   onClick={() => {
     setEditingGoalId(goal.id);
@@ -310,14 +296,30 @@ const handleEditGoal = async (e, goalId) => {
     </div>
   </form>
 )}
-
-
-          <button
+  <button
             onClick={() => handleDelete(goal.id)}
             className="mt-2 text-sm text-red-500 hover:underline"
           >
             Delete
           </button>
+          
+<form onSubmit={(e) => handleAddToSavings(e, goal.id)} className="flex mt-2 gap-2">
+            <input
+              type="number"
+              value={amountsToSave[goal.id] || ""}
+              onChange={(e) =>
+                setAmountsToSave((prev) => ({
+                  ...prev,
+                  [goal.id]: e.target.value,
+                }))
+              }
+              placeholder="₦ to save"
+              className="border p-1 rounded w-1/2"
+            />
+            <button className="bg-green-600 text-white px-2 py-1 rounded text-sm">Add</button>
+          </form>
+
+        
         </li>
       );
     })}
