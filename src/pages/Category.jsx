@@ -9,6 +9,7 @@ const Category = () => {
   const [form, setForm] = useState({ name: "", type: "expense", color: "#6366f1" });
   const [loading, setLoading] = useState(true);
 
+  // Fetch categories
   const fetchCategories = async () => {
     try {
       const res = await API.get("/api/categories", {
@@ -26,10 +27,12 @@ const Category = () => {
     fetchCategories();
   }, []);
 
+  // Handle form changes
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Handle create category
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -43,6 +46,7 @@ const Category = () => {
     }
   };
 
+  // Handle delete category
   const handleDelete = async (id) => {
     try {
       await API.delete(`/api/categories/${id}`, {
@@ -57,15 +61,16 @@ const Category = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <Navbar />
+
       <div className="max-w-3xl mx-auto p-6">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-6">📂 Manage Categories</h1>
 
         {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-8 space-y-4"
+          className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-8"
         >
-          <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+          <div className="flex flex-col md:flex-row gap-4">
             <input
               type="text"
               name="name"
@@ -92,7 +97,8 @@ const Category = () => {
               className="w-16 h-12 rounded-lg border border-gray-300 p-1 cursor-pointer"
             />
           </div>
-          <button className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transform transition">
+
+          <button className="mt-4 w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transform transition">
             + Create Category
           </button>
         </form>
