@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [loadingExpenses, setLoadingExpenses] = useState(true);
   const [form, setForm] = useState({
     title: "",
-    amount: 0,
+    amount: "",
     category: "",
     month: "",
   });
@@ -62,82 +62,51 @@ const Dashboard = () => {
   });
 
   return (
-    <div>
-       <Navbar />
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-     
-      <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 min-h-screen transition-colors duration-500">
+      <Navbar />
+
+      <div className="max-w-7xl mx-auto px-6 py-10">
         {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-4xl font-bold text-gray-800">📊 Dashboard</h1>
-          <p className="text-gray-500 mt-2">
+        <div className="mb-10 text-center md:text-left">
+          <h1 className="text-5xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+            📊 Dashboard
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
             Track your budgets, expenses, and financial health in one place.
           </p>
         </div>
 
-        {/* Create Bdget Form */}
-        <div className=" bg-white p-6 rounded overflow-hidden w-36 h-28 shadow-lg mb-4 border-3 display:inline-flex border-gray-100 ">
-          <h2 className="text-xl font-semibold mb-6  text-gray-800">➕ Create New Budget</h2>
-          <form 
-            onSubmit={handleSubmit} 
-            className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4"
+        {/* Create Budget Form */}
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 mb-10 transition-colors duration-300">
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-8 flex items-center justify-center gap-2">
+            <span className="text-3xl animate-bounce">➕</span> Create New Budget
+          </h2>
+
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
-            <div className="flex flex-col">
-              <label className=" text-sm text-gray-600">Title</label>
-              <input
-                type="text"
-                name="title"
-                value={form.title}
-                onChange={handleChange}
-                placeholder="e.g. Food Budget"
-                className="w-40 border p-3 rounded-full mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
-            </div>
+            {["title","amount","category","month"].map((field) => (
+              <div key={field} className="flex flex-col">
+                <label className="text-sm text-gray-500 dark:text-gray-300 capitalize mb-1">
+                  {field}
+                </label>
+                <input
+                  type={field === "amount" ? "number" : "text"}
+                  name={field}
+                  value={form[field]}
+                  onChange={handleChange}
+                  placeholder={`Enter ${field}`}
+                  className="mt-1 p-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-400 focus:outline-none shadow-sm transition-all duration-200 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  required
+                />
+              </div>
+            ))}
 
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600">Amount</label>
-              <input
-                type="number"
-                name="amount"
-                value={form.amount}
-                onChange={handleChange}
-                placeholder="e.g. 5000"
-                className="w-40 border p-3 rounded-full mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600">Category</label>
-              <input
-                type="text"
-                name="category"
-                value={form.category}
-                onChange={handleChange}
-                placeholder="e.g. Groceries"
-                className="w-40 border p-3 rounded-full mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600">Month</label>
-              <input
-                type="text"
-                name="month"
-                value={form.month}
-                onChange={handleChange}
-                placeholder="e.g. August"
-                className="w-40 border p-3 rounded-full mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
-            </div>
-
-            <div className="md:col-span-2 lg:col-span-4 flex justify-center mt-4">
+            <div className="md:col-span-2 flex justify-center mt-6">
               <button
                 type="submit"
-                className="bg-gradient-to-r from-blue-600  to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition"
+                className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-10 py-3 rounded-2xl font-semibold shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-pink-300"
               >
                 + Create Budget
               </button>
@@ -145,10 +114,12 @@ const Dashboard = () => {
           </form>
         </div>
 
-        {/* Display Budget Section */}
+        {/* Budget Cards Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loadingBudgets ? (
-            <p className="text-gray-500 animate-pulse">📊 Loading budgets...</p>
+            <p className="text-gray-500 animate-pulse col-span-full text-center">
+              📊 Loading budgets...
+            </p>
           ) : (
             budgets.map((budget) => (
               <BudgetCardWithExpenses
@@ -163,12 +134,16 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Budget Chart */}
+        {/* Budget Chart Section */}
         <div className="mt-12">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">📈 Spending Overview</h2>
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 dark:text-gray-100">
+            📈 Spending Overview
+          </h2>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
             {loadingExpenses ? (
-              <p className="text-gray-500 animate-pulse">Loading chart...</p>
+              <p className="text-gray-500 animate-pulse text-center">
+                Loading chart...
+              </p>
             ) : (
               <div className="w-full h-80">
                 <BudgetChart budgets={budgets} expensesByBudget={expensesByBudget} />
@@ -177,7 +152,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
