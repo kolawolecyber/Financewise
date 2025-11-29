@@ -251,8 +251,7 @@ const Transaction = () => {
 
         {/* Chart */}
         <div className="mb-6">
-          <TransactionChart transactions={transactions} />
-          <TransactionChart transactions={transactions} />
+        
 <TransactionChart totalIncome={totalIncome} totalExpense={totalExpense} balance={balance}/>
 
         </div>
