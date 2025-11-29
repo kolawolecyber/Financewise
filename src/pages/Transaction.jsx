@@ -276,9 +276,10 @@ const Transaction = () => {
             </tbody>
           </table>
         </div>
-      </div>
-      <TransactionChart transactions={transactions} /> 
+        <TransactionChart transactions={transactions} /> 
       <TransactionChart totalIncome={totalIncome} totalExpense={totalExpense} balance={balance}/>
+      </div>
+      
     </div>
   );
 };
