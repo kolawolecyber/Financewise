@@ -115,7 +115,7 @@ const Transaction = () => {
                     placeholder="Title"
                     value={form.title}
                     onChange={handleChange}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                    className="w-3/4 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200"
                     required
                   />
                   <input
@@ -124,7 +124,7 @@ const Transaction = () => {
                     placeholder="Amount"
                     value={form.amount}
                     onChange={handleChange}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                    className="w-3/4 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200"
                     required
                   />
                 </div>
@@ -159,7 +159,7 @@ const Transaction = () => {
                     name="date"
                     value={form.date}
                     onChange={handleChange}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-200"
+                    className="w-3/4 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-200"
                   />
                 </div>
 
@@ -277,6 +277,8 @@ const Transaction = () => {
           </table>
         </div>
       </div>
+      <TransactionChart transactions={transactions} /> 
+      <TransactionChart totalIncome={totalIncome} totalExpense={totalExpense} balance={balance}/>
     </div>
   );
 };
