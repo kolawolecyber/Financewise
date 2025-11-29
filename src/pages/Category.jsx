@@ -129,7 +129,7 @@ const Category = () => {
                   placeholder="e.g., Transportation"
                   value={form.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
+                  className="w-3/4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
                   required
                 />
               </div>
@@ -163,7 +163,7 @@ const Category = () => {
                     name="color"
                     value={form.color}
                     onChange={handleChange}
-                    className="w-full h-12 rounded-xl border border-white/10 bg-white/5 cursor-pointer hover:scale-105 transition-transform duration-300"
+                    className="w-3/4 h-12 rounded-xl border border-white/10 bg-white/5 cursor-pointer hover:scale-105 transition-transform duration-300"
                   />
                   <div 
                     className="w-12 h-12 rounded-xl border-2 border-white/20 shadow-lg"
