@@ -135,7 +135,7 @@ const Transaction = () => {
                       placeholder="e.g., Grocery Shopping"
                       value={form.title}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
+                      className="w-3/4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
                       required
                     />
                   </div>
@@ -151,7 +151,7 @@ const Transaction = () => {
                       placeholder="e.g., 5000"
                       value={form.amount}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
+                      className="w-3/4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
                       required
                       step="0.01"
                     />
@@ -205,7 +205,7 @@ const Transaction = () => {
                       name="date"
                       value={form.date}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
+                      className="w-3/4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
                     />
                   </div>
                 </div>

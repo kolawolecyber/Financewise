@@ -110,10 +110,10 @@ const Goals = () => {
         {/* New Goal Form */}
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 mb-8 space-y-4">
           <h2 className="font-semibold text-gray-700">Add New Goal</h2>
-          <input type="text" name="title" value={form.title} onChange={handleChange} placeholder="e.g. Buy Laptop" className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
-          <input type="number" name="targetAmount" value={form.targetAmount} onChange={handleChange} placeholder="Target Amount (₦)" className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
-          <input type="date" name="dueDate" value={form.dueDate} onChange={handleChange} className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
-          <button className="w-full bg-indigo-600 text-white py-2 rounded-xl font-semibold shadow hover:bg-indigo-700 transition transform hover:scale-105">Create Goal</button>
+          <input type="text" name="title" value={form.title} onChange={handleChange} placeholder="e.g. Buy Laptop" className="w-3/4 border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
+          <input type="number" name="targetAmount" value={form.targetAmount} onChange={handleChange} placeholder="Target Amount (₦)" className="w-3/4 border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
+          <input type="date" name="dueDate" value={form.dueDate} onChange={handleChange} className="w-3/4 border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
+          <button className="w-3/4 bg-indigo-600 text-white py-2 rounded-xl font-semibold shadow hover:bg-indigo-700 transition transform hover:scale-105">Create Goal</button>
         </form>
 
         {/* Active Goals */}
@@ -143,9 +143,9 @@ const Goals = () => {
 
                   {editingGoalId === goal.id && (
                     <form onSubmit={(e) => handleEditGoal(e, goal.id)} className="mt-3 bg-gray-50 p-3 rounded border space-y-2">
-                      <input type="text" name="title" value={editForm.title} onChange={e => setEditForm({ ...editForm, title: e.target.value })} placeholder="Title" className="w-full border p-1 rounded" />
-                      <input type="number" name="targetAmount" value={editForm.targetAmount} onChange={e => setEditForm({ ...editForm, targetAmount: e.target.value })} placeholder="Target Amount" className="w-full border p-1 rounded" />
-                      <input type="date" name="targetDate" value={editForm.targetDate} onChange={e => setEditForm({ ...editForm, targetDate: e.target.value })} className="w-full border p-1 rounded" />
+                      <input type="text" name="title" value={editForm.title} onChange={e => setEditForm({ ...editForm, title: e.target.value })} placeholder="Title" className="w-3/4 border p-1 rounded" />
+                      <input type="number" name="targetAmount" value={editForm.targetAmount} onChange={e => setEditForm({ ...editForm, targetAmount: e.target.value })} placeholder="Target Amount" className="w-3/4 border p-1 rounded" />
+                      <input type="date" name="targetDate" value={editForm.targetDate} onChange={e => setEditForm({ ...editForm, targetDate: e.target.value })} className="w-3/4 border p-1 rounded" />
                       <div className="flex gap-2">
                         <button type="submit" className="bg-blue-600 text-white px-3 py-1 rounded">Save</button>
                         <button type="button" onClick={() => setEditingGoalId(null)} className="text-gray-500 hover:underline">Cancel</button>
