@@ -249,12 +249,7 @@ const Transaction = () => {
           </aside>
         </div>
 
-        {/* Chart */}
-        <div className="mb-6">
-        
-<TransactionChart totalIncome={totalIncome} totalExpense={totalExpense} balance={balance}/>
-
-        </div>
+       
 
         {/* Totals Table (keeps original totals UI but restyled) */}
         <div className="overflow-x-auto">
@@ -276,7 +271,13 @@ const Transaction = () => {
           </table>
         </div>
        
-      <TransactionChart totalIncome={totalIncome} totalExpense={totalExpense} balance={balance}/>
+      {/* Chart */}
+        <div className="mb-6">
+        <TransactionChart transactions={transactions} />
+
+<TransactionChart totalIncome={totalIncome} totalExpense={totalExpense} balance={balance}/>
+
+        </div>
       </div>
       
     </div>
