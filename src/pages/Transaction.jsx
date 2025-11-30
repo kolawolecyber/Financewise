@@ -108,70 +108,80 @@ const Transaction = () => {
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Add Transaction</h2>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                    value={form.title}
-                    onChange={handleChange}
-                    className="w-3/4 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                    required
-                  />
-                  <input
-                    type="number"
-                    name="amount"
-                    placeholder="Amount"
-                    value={form.amount}
-                    onChange={handleChange}
-                    className="w-3/4 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200"
-                    required
-                  />
-                </div>
+  {/* First Row */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <input
+      type="text"
+      name="title"
+      placeholder="Title"
+      value={form.title}
+      onChange={handleChange}
+      className="w-full border border-gray-200 rounded-xl px-4 py-2 
+      focus:outline-none focus:ring-2 focus:ring-pink-300"
+      required
+    />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <select
-                    name="type"
-                    value={form.type}
-                    onChange={handleChange}
-                    className="w-3/4 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                  >
-                    <option value="expense">Expense</option>
-                    <option value="income">Income</option>
-                  </select>
+    <input
+      type="number"
+      name="amount"
+      placeholder="Amount"
+      value={form.amount}
+      onChange={handleChange}
+      className="w-full border border-gray-200 rounded-xl px-4 py-2 
+      focus:outline-none focus:ring-2 focus:ring-purple-300"
+      required
+    />
+  </div>
 
-                  <select
-                    name="categoryId"
-                    value={form.categoryId}
-                    onChange={handleChange}
-                    className="w-3/4 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-200"
-                  >
-                    <option value="">-- Select Category --</option>
-                    {categories.map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.name} ({cat.type})
-                      </option>
-                    ))}
-                  </select>
+  {/* Second Row */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <select
+      name="type"
+      value={form.type}
+      onChange={handleChange}
+      className="w-full border border-gray-200 rounded-xl px-4 py-2 
+      focus:outline-none focus:ring-2 focus:ring-indigo-300"
+    >
+      <option value="expense">Expense</option>
+      <option value="income">Income</option>
+    </select>
 
-                  <input
-                    type="date"
-                    name="date"
-                    value={form.date}
-                    onChange={handleChange}
-                    className="w-3/4 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-200"
-                  />
-                </div>
+    <select
+      name="categoryId"
+      value={form.categoryId}
+      onChange={handleChange}
+      className="w-full border border-gray-200 rounded-xl px-4 py-2 
+      focus:outline-none focus:ring-2 focus:ring-teal-300"
+    >
+      <option value="">-- Select Category --</option>
+      {categories.map((cat) => (
+        <option key={cat.id} value={cat.id}>
+          {cat.name} ({cat.type})
+        </option>
+      ))}
+    </select>
 
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    className="bg-gradient-to-r from-pink-400 to-purple-500 text-white px-6 py-2 rounded-2xl font-semibold shadow-md hover:scale-105 transform transition"
-                  >
-                    + Add Transaction
-                  </button>
-                </div>
-              </form>
+    <input
+      type="date"
+      name="date"
+      value={form.date}
+      onChange={handleChange}
+      className="w-full border border-gray-200 rounded-xl px-4 py-2 
+      focus:outline-none focus:ring-2 focus:ring-green-300"
+    />
+  </div>
+
+  <div className="flex justify-end">
+    <button
+      type="submit"
+      className="bg-gradient-to-r from-pink-400 to-purple-500 
+      text-white px-6 py-2 rounded-2xl font-semibold shadow-md
+      hover:scale-105 transition transform"
+    >
+      + Add Transaction
+    </button>
+  </div>
+</form>
             </div>
 
             {/* Transactions list */}
