@@ -1,88 +1,74 @@
-import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
   Tooltip,
   Legend,
-  ResponsiveContainer,
-} from "recharts";
+} from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const TransactionChart = ({ transactions }) => {
-  const [chartData, setChartData] = useState([]);
+  if (!transactions || transactions.length === 0) {
+    return (
+      <div className="text-center text-gray-500 py-8">
+        No chart data available
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    if (!transactions || transactions.length === 0) {
-      setChartData([]);
-      return;
+  // ⭐ FIX ISO date → YYYY-MM
+  const monthlyTotals = {};
+
+  transactions.forEach((t) => {
+    if (!t.date) return;
+
+    const d = new Date(t.date); // Parse ISO date
+    if (isNaN(d)) return;
+
+    const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+
+    if (!monthlyTotals[monthKey]) {
+      monthlyTotals[monthKey] = { income: 0, expense: 0 };
     }
 
-    const grouped = {};
+    if (t.type === "income") {
+      monthlyTotals[monthKey].income += Number(t.amount);
+    } else {
+      monthlyTotals[monthKey].expense += Number(t.amount);
+    }
+  });
 
-    transactions.forEach((tx) => {
-      const dateValue = tx.date || tx.createdAt;
 
-      const parsedDate = new Date(dateValue);
+  const labels = Object.keys(monthlyTotals).sort();
+  const incomeData = labels.map((m) => monthlyTotals[m].income);
+  const expenseData = labels.map((m) => monthlyTotals[m].expense);
 
-      if (isNaN(parsedDate)) return; // skip bad dates
-
-      const month = parsedDate.toLocaleString("default", {
-        month: "short",
-        year: "numeric",
-      });
-
-      if (!grouped[month]) {
-        grouped[month] = { month, income: 0, expense: 0 };
-      }
-
-      const amt = Number(tx.amount);
-
-      if (tx.type === "income") grouped[month].income += amt;
-      else grouped[month].expense += amt;
-    });
-
-    setChartData(Object.values(grouped));
-  }, [transactions]);
-console.log("DEBUG: transactions:", transactions);
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Income",
+        data: incomeData,
+        backgroundColor: "rgba(34,197,94,0.6)",
+      },
+      {
+        label: "Expense",
+        data: expenseData,
+        backgroundColor: "rgba(239,68,68,0.6)",
+      },
+    ],
+  };
 
   return (
-    <div className="mt-10 bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
-      <h2 className="text-xl font-semibold mb-4 text-gray-700">
+    <div className="bg-white p-6 rounded-2xl shadow-md mt-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">
         Monthly Income vs Expense
-      </h2>
-      
-<div className="bg-yellow-100 text-yellow-900 p-3 rounded mb-4">
-  <strong>Debug Transaction Sample:</strong>
-  <pre className="text-xs">
-    {JSON.stringify(transactions?.[0], null, 2)}
-  </pre>
-</div>
+      </h3>
 
-      {chartData.length === 0 ? (
-        <p className="text-center text-gray-500 py-6">
-          No chart data available yet.
-        </p>
-      ) : (
-        <div className="w-full h-72">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData}>
-              <XAxis dataKey="month" stroke="#555" />
-              <YAxis stroke="#555" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#ffffff",
-                  borderRadius: "8px",
-                  border: "1px solid #ddd",
-                }}
-              />
-              <Legend />
-              <Bar dataKey="income" fill="#4ade80" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="expense" fill="#f87171" radius={[6, 6, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      )}
+      <Bar data={data} />
     </div>
   );
 };
