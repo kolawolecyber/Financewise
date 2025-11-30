@@ -116,7 +116,7 @@ const Transaction = () => {
       placeholder="Title"
       value={form.title}
       onChange={handleChange}
-      className="w-full border border-gray-200 rounded-xl px-2 py-2 
+      className="w-full border border-gray-200 rounded-xl px-4 py-2 
       focus:outline-none focus:ring-2 focus:ring-pink-300"
       required
     />

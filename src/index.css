@@ -200,7 +200,8 @@ input, select, textarea {
   margin-bottom: 2%;
   background: var(--color-glass-bg);
   backdrop-filter: blur(10px);
-  
+  height: 10px;
+  width: 80%;
   font-size: 1em;
   color: var(--color-text-dark);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
