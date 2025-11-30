@@ -98,7 +98,7 @@ const Dashboard = () => {
               onClick={() => setShowForm(!showForm)}
               className="group relative px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl font-semibold text-white shadow-lg shadow-pink-500/30 hover:shadow-xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105 active:scale-95"
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10  flex-shrink-0 flex items-center gap-2">
                 {showForm ? (
                   <>
                     <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
