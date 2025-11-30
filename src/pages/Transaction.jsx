@@ -275,7 +275,6 @@ const Transaction = () => {
         <div className="mb-6">
         <TransactionChart transactions={transactions} />
 
-<TransactionChart totalIncome={totalIncome} totalExpense={totalExpense} balance={balance}/>
 
         </div>
       </div>
