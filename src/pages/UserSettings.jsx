@@ -110,7 +110,7 @@ const UserSettings = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-3/4 p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
@@ -122,7 +122,7 @@ const UserSettings = () => {
                 name="email"
                 value={formData.email}
                 disabled
-                className="w-3/4 p-2 border rounded-lg bg-gray-100 cursor-not-allowed"
+                className="w-full p-2 border rounded-lg bg-gray-100 cursor-not-allowed"
               />
             </div>
 
@@ -136,7 +136,7 @@ const UserSettings = () => {
                 name="monthlyIncome"
                 value={formData.monthlyIncome || ""}
                 onChange={handleChange}
-                className="w-3/4 p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="w-full p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
 
@@ -166,7 +166,7 @@ const UserSettings = () => {
                 name="financialGoal"
                 value={formData.financialGoal || ""}
                 onChange={handleChange}
-                className="w-3/4 p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+                className="w-full p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
               />
             </div>
 

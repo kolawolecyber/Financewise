@@ -48,7 +48,7 @@ const Login = () => {
           name="email"
           placeholder="Enter your email"
           onChange={handleChange}
-          className="w-3/4 mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+          className="w-full mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
         />
 
         {/* Password */}
@@ -58,7 +58,7 @@ const Login = () => {
           name="password"
           placeholder="Enter your password"
           onChange={handleChange}
-          className="w-3/4 mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
+          className="w-full mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
         />
 
         {/* Submit Button */}
