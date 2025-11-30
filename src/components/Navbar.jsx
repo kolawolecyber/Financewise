@@ -18,10 +18,14 @@ const Navbar = () => {
     <nav className="bg-gray-100 p-4 shadow-md ">
       <div className="flex items-center justify-between ">
         {/* Home */}
-        <Link className="font-bold text-lg" to="/">
-       <img src={logo} alt="Logo" className="h-10 w-10 object-contain rounded-full" />
-          FinanceWise
-        </Link>
+       <Link className="font-bold text-lg flex items-center gap-2" to="/">
+  <img
+    src={logo}
+    alt="Logo"
+    className="h-10 w-10 object-contain rounded-full flex-shrink-0"
+  />
+  FinanceWise
+</Link>
 
         {/* Desktop links */}
         <div className="hidden md:flex gap-6 items-center">
