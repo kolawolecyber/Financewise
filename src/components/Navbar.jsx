@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Menu, X } from "lucide-react"; // icons
+import logo from "../assets/financewise.png"
 
 const Navbar = () => {
   const { token, logout } = useAuth();
@@ -18,6 +19,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between ">
         {/* Home */}
         <Link className="font-bold text-lg" to="/">
+       <img src={logo} alt="Logo" className="h-10 w-10" />
           FinanceWise
         </Link>
 

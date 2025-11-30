@@ -5,6 +5,7 @@ import { fetchBudgets, createBudget, fetchExpenses } from "../utils/Api";
 import BudgetCardWithExpenses from "../components/BudgetCardWithExpense";
 import BudgetChart from "../components/BudgetChart"; 
 import Navbar from "../components/Navbar";
+import logo from "../assets/financewise.png"
 
 const Dashboard = () => {
   const { token } = useAuth();
