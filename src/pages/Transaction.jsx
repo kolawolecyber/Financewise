@@ -104,7 +104,7 @@ const Transaction = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           {/* Form (large) */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-3xl p-6 w-full shadow-xl border border-pink-100">
+            <div className="bg-white rounded-3xl p-6  shadow-xl border border-pink-100">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Add Transaction</h2>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -116,7 +116,7 @@ const Transaction = () => {
       placeholder="Title"
       value={form.title}
       onChange={handleChange}
-      className="w-full border border-gray-200 rounded-xl px-4 py-2 
+      className="w-full border border-gray-200 rounded-xl px-2 py-2 
       focus:outline-none focus:ring-2 focus:ring-pink-300"
       required
     />
