@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between ">
         {/* Home */}
         <Link className="font-bold text-lg" to="/">
-       <img src={logo} alt="Logo" className="h-10 w-10" />
+       <img src={logo} alt="Logo" className="h-2 w-2" />
           FinanceWise
         </Link>
 
