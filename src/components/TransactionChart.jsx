@@ -21,13 +21,8 @@ const TransactionChart = ({ transactions }) => {
     const grouped = {};
 
     transactions.forEach((tx) => {
-      const dateValue = tx.date || tx.createdAt;
-
-      const parsedDate = new Date(dateValue);
-
-      if (isNaN(parsedDate)) return; // skip bad dates
-
-      const month = parsedDate.toLocaleString("default", {
+      const date = new Date(tx.date);
+      const month = date.toLocaleString("default", {
         month: "short",
         year: "numeric",
       });
@@ -36,13 +31,12 @@ const TransactionChart = ({ transactions }) => {
         grouped[month] = { month, income: 0, expense: 0 };
       }
 
-      const amt = Number(tx.amount);
-
-      if (tx.type === "income") grouped[month].income += amt;
-      else grouped[month].expense += amt;
+      if (tx.type === "income") grouped[month].income += tx.amount;
+      else grouped[month].expense += tx.amount;
     });
 
-    setChartData(Object.values(grouped));
+    const finalData = Object.values(grouped);
+    setChartData(finalData);
   }, [transactions]);
 
   return (
