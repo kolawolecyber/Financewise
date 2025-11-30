@@ -22,7 +22,7 @@ const Navbar = () => {
   <img
     src={logo}
     alt="Logo"
-    className="h-10 w-10 object-contain rounded-full flex-shrink-0"
+    className="nav-logo  rounded-full flex-shrink-0"
   />
   FinanceWise
 </Link>

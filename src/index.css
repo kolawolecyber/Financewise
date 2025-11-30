@@ -67,6 +67,13 @@ body {
   50% { background-position: 100% 50%; }
 }
 
+/* index.css or globals.css */
+.nav-logo {
+  height: 40px; /* or any size you want */
+  width: 40px;
+  object-fit: contain;
+}
+
 /* -----------------------
   Headings - Modern Typography
 ------------------------- */
