@@ -41,6 +41,7 @@ const TransactionChart = ({ transactions }) => {
     }
   });
 
+
   const labels = Object.keys(monthlyTotals).sort();
   const incomeData = labels.map((m) => monthlyTotals[m].income);
   const expenseData = labels.map((m) => monthlyTotals[m].expense);
