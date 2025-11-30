@@ -5,7 +5,7 @@ import { fetchBudgets, createBudget, fetchExpenses } from "../utils/Api";
 import BudgetCardWithExpenses from "../components/BudgetCardWithExpense";
 import BudgetChart from "../components/BudgetChart"; 
 import Navbar from "../components/Navbar";
-import logo from "../assets/financewise.png"
+
 
 const Dashboard = () => {
   const { token } = useAuth();
@@ -101,7 +101,7 @@ const Dashboard = () => {
               <span className="relative z-10 flex items-center gap-2">
                 {showForm ? (
                   <>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                     Cancel
