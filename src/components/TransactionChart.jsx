@@ -44,12 +44,20 @@ const TransactionChart = ({ transactions }) => {
 
     setChartData(Object.values(grouped));
   }, [transactions]);
+console.log("DEBUG: transactions:", transactions);
 
   return (
     <div className="mt-10 bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
       <h2 className="text-xl font-semibold mb-4 text-gray-700">
         Monthly Income vs Expense
       </h2>
+      
+<div className="bg-yellow-100 text-yellow-900 p-3 rounded mb-4">
+  <strong>Debug Transaction Sample:</strong>
+  <pre className="text-xs">
+    {JSON.stringify(transactions?.[0], null, 2)}
+  </pre>
+</div>
 
       {chartData.length === 0 ? (
         <p className="text-center text-gray-500 py-6">
