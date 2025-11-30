@@ -171,7 +171,7 @@ const Transaction = () => {
     />
   </div>
 
-  <div className="flex justify-end">
+  <div className="flex justify-center">
     <button
       type="submit"
       className="bg-gradient-to-r from-pink-400 to-purple-500 
