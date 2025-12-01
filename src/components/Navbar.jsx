@@ -24,7 +24,7 @@ const Navbar = () => {
     alt="Logo"
     className="nav-logo  rounded-full flex-shrink-0"
   />
-  FinanceWise
+  Financewise
 </Link>
 
         {/* Desktop links */}
