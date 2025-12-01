@@ -72,7 +72,7 @@ const GoalDashboard = () => {
           onChange={handleFilterChange}
           className="border px-2 py-1 rounded"
         >
-          <option value="">All Months</option>
+          <option className="text-black" value="">All Months</option>
           {Array.from({ length: 12 }).map((_, i) => (
             <option key={i} value={dayjs().month(i).format("MMMM")}>
               {dayjs().month(i).format("MMMM")}
