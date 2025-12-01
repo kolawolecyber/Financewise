@@ -81,7 +81,7 @@ const UserSettings = () => {
                 <img
                   src={previewSource}
                   alt="Profile"
-                  className="w-24 h-24 rounded-full object-cover mb-3 shadow-lg"
+                  className="w10 h-10 rounded-full object-cover mb-3 shadow-lg"
                 />
               ) : (
                 <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-3 shadow-lg">
