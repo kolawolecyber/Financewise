@@ -85,9 +85,9 @@ const Dashboard = () => {
         <div className="mb-12 animate-fade-in">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
             <div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-3 bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-3 bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
                 Financial Dashboard
-              </h1>
+              </h2>
               <p className="text-gray-400 text-base sm:text-lg">
                 Monitor your finances with real-time insights 💰
               </p>
