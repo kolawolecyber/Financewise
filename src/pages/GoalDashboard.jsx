@@ -70,7 +70,7 @@ const GoalDashboard = () => {
         <select
           value={filterMonth}
           onChange={handleFilterChange}
-          className="border px-2 py-1 rounded text-black"
+          className="border px-2 py-1 rounded"
         >
           <option value="">All Months</option>
           {Array.from({ length: 12 }).map((_, i) => (
