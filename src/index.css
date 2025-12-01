@@ -69,8 +69,8 @@ body {
 
 /* index.css or globals.css */
 .nav-logo {
-  height: 50px; /* or any size you want */
-  width: 60px;
+  height: 60px; /* or any size you want */
+  width: 70px;
   object-fit: contain;
 }
 
