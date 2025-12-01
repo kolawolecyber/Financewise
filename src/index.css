@@ -92,7 +92,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Fix dropdown popup visibility */
 select option {
   color: white!important;
-  background:   rgba(13, 1, 22, 0.15) !important;
+  background:  black !important;
 }
 
 
