@@ -110,10 +110,10 @@ const Goals = () => {
         {/* New Goal Form */}
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 mb-8 space-y-4">
           <h2 className="font-semibold text-gray-700">Add New Goal</h2>
-          <input type="text" name="title" value={form.title} onChange={handleChange} placeholder="e.g. Buy Laptop" className="w-full border border-gray-300 px-6 py-2 rounded-lg  focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
-          <input type="number" name="targetAmount" value={form.targetAmount} onChange={handleChange} placeholder="Target Amount (₦)" className="w-full border border-gray-300 px-6 py-2 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
+          <input type="text" name="title" value={form.title} onChange={handleChange} placeholder="e.g. Buy Laptop" className="w-full border border-gray-300 px-6 py-6 rounded-lg  focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
+          <input type="number" name="targetAmount" value={form.targetAmount} onChange={handleChange} placeholder="Target Amount (₦)" className="w-full border border-gray-300 px-6 py-6 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
           <input type="date" name="dueDate" value={form.dueDate} onChange={handleChange} className="w-full border px-6 py-2 border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" required />
-          <button className="w-full bg-indigo-600 text-white py-2 rounded-xl font-semibold shadow hover:bg-indigo-700 transition transform hover:scale-105">Create Goal</button>
+          <button className="w-full bg-indigo-600 text-white py-2 rounded-xl font-semibold shadow hover:bg-indigo-700 transition transform hover:scale-90">Create Goal</button>
         </form>
 
         {/* Active Goals */}
