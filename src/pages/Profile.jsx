@@ -46,7 +46,7 @@ const Profile = () => {
               <img
                 src={formData.profilePic}
                 alt={formData?.name}
-                className="h-full w-full object-cover"
+                className="h-50 w-50 object-cover"
               />
             ) : (
               <span className="text-3xl font-semibold text-gray-600">
