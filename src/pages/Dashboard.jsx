@@ -224,7 +224,7 @@ const Dashboard = () => {
         </div>
 
         {/* Budget Cards Grid */}
-        <div className="mb-12">
+        <div className="mb-6">
           <div className="flex items-center gap-3 mb-6">
             <h2 className="text-2xl sm:text-3xl font-bold text-white">Your Budgets</h2>
             <span className="px-3 py-1 bg-pink-500/20 text-pink-400 rounded-full text-sm font-semibold">

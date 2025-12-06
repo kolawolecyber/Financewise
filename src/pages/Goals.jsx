@@ -123,7 +123,7 @@ const Goals = () => {
         ) : activeGoals.length === 0 ? (
           <p className="text-gray-500 mb-4">No active goals yet.</p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-4 list-none">
             {activeGoals.map(goal => {
               const progress = Math.min((goal.savedAmount / goal.targetAmount) * 100, 100).toFixed(1);
               return (
@@ -168,7 +168,7 @@ const Goals = () => {
         {achievedGoals.length === 0 ? (
           <p className="text-gray-500">You haven’t achieved any goals yet.</p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-4 list-none">
             {achievedGoals.map(goal => {
               const progress = Math.min((goal.savedAmount / goal.targetAmount) * 100, 100).toFixed(1);
               return (
