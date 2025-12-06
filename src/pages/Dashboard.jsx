@@ -169,7 +169,7 @@ const Dashboard = () => {
         </div>
 
         {/* Create Budget Form - Sliding Panel */}
-        <div className={`transition-all duration-500 ease-in-out overflow-hidden ${showForm ? 'max-h-[600px] opacity-100 mb-12' : 'max-h-0 opacity-0'}`}>
+        <div className={`transition-all duration-500 ease-in-out overflow-hidden ${showForm ? 'max-h-[600px] opacity-100 mb-6' : 'max-h-0 opacity-0'}`}>
           <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-xl flex items-center justify-center">
@@ -226,7 +226,7 @@ const Dashboard = () => {
         {/* Budget Cards Grid */}
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">Your Budgets</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">Your Budgets </h2>
             <span className="px-3 py-1 bg-pink-500/20 text-pink-400 rounded-full text-sm font-semibold">
               {budgets.length}
             </span>
