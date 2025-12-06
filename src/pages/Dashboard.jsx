@@ -169,7 +169,7 @@ const Dashboard = () => {
         </div>
 
         {/* Create Budget Form - Sliding Panel */}
-        <div className={`transition-all duration-500 ease-in-out overflow-hidden ${showForm ? 'max-h-[600px] opacity-100 mb-6' : 'max-h-0 opacity-0'}`}>
+        <div className={`transition-all duration-500 ease-in-out overflow-hidden ${showForm ? 'max-h-screen opacity-100 mb-6' : 'max-h-0 opacity-0'}`}>
           <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-xl flex items-center justify-center">
@@ -211,7 +211,12 @@ const Dashboard = () => {
                   className="group relative px-10 py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 rounded-2xl font-bold text-white shadow-xl shadow-pink-500/30 hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-               
+                  <span className="relative z-10 flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Create Budget
+                  </span>
                 </button>
               </div>
             </form>
@@ -219,9 +224,9 @@ const Dashboard = () => {
         </div>
 
         {/* Budget Cards Grid */}
-        <div className="mb-6">
+        <div className="mb-15">
           <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">Your Budgets </h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">Your Budgets</h2>
             <span className="px-3 py-1 bg-pink-500/20 text-pink-400 rounded-full text-sm font-semibold">
               {budgets.length}
             </span>
