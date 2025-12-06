@@ -169,16 +169,17 @@ const Dashboard = () => {
         </div>
 
         {/* Create Budget Form - Sliding Panel */}
-        <div className={`transition-all duration-500 ease-in-out overflow-hidden ${showForm ? 'max-h-screen opacity-100 mb-6 mt-6' : 'max-h-0 opacity-0 m-0 p-0'}`}>
-          <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-xl flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white">Create New Budget</h2>
-            </div>
+      {showForm && (
+  <div className="mb-6 animate-slide-down">
+    <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-xl flex items-center justify-center">
+          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white">Create New Budget</h2>
+      </div>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
@@ -222,7 +223,7 @@ const Dashboard = () => {
             </form>
           </div>
         </div>
-
+      )}
         {/* Budget Cards Grid */}
         <div className="mb-15">
           <div className="flex items-center gap-3 mb-6">
