@@ -69,7 +69,7 @@ const Signup = () => {
           placeholder="Enter your name"
           onChange={handleChange}
           required
-          className="w-3/4 mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
+          className="w-full mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
         />
 
         {/* Email */}
@@ -80,7 +80,7 @@ const Signup = () => {
           placeholder="Enter your email"
           onChange={handleChange}
           required
-          className="w-3/4 mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+          className="w-full mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
         />
 
         {/* Password */}
@@ -91,7 +91,7 @@ const Signup = () => {
           placeholder="Enter a password"
           onChange={handleChange}
           required
-          className="w-3/4 mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
+          className="w-full mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
         />
 
         {/* Confirm Password */}
@@ -102,13 +102,13 @@ const Signup = () => {
           placeholder="Re-enter password"
           onChange={handleChange}
           required
-          className="w-3/4 mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+          className="w-full mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
         />
 
         {/* Signup Button */}
         <button
           type="submit"
-          className="w-3/4 bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 rounded-2xl font-semibold shadow-md hover:scale-105 transition transform"
+          className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 rounded-2xl font-semibold shadow-md hover:scale-105 transition transform"
         >
           {loading ? "Signing up..." : "Signup"}
         </button>
