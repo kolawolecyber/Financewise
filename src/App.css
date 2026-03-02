@@ -78,26 +78,16 @@ html {
 
 button {
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.02);
 }
 
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-/* ----------------------------
-   TABLE REFINEMENT
------------------------------ */
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th {
-  font-weight: 600;
-  text-align: left;
 }
 
 /* ----------------------------
@@ -114,5 +104,66 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  box-shadow: 0 0 0 2px var(--primary);
+  box-shadow: 0 0 0 2px var(--primary), 0 0 6px rgba(99,102,241,0.3);
+}
+
+/* ----------------------------
+   TABLE REFINEMENT
+----------------------------- */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  font-weight: 600;
+  text-align: left;
+}
+
+table tr:hover {
+  background-color: rgba(99,102,241,0.05);
+}
+
+.dark table tr:hover {
+  background-color: rgba(129,140,248,0.15);
+}
+
+/* ----------------------------
+   CARD STYLING
+----------------------------- */
+
+.card {
+  background: var(--surface);
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 35px -5px rgba(0,0,0,0.12);
+}
+
+.glass-card {
+  backdrop-filter: blur(14px);
+  background: rgba(255,255,255,0.15);
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.dark .glass-card {
+  background: rgba(30,41,59,0.25);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ----------------------------
+   SECTION HEADER
+----------------------------- */
+
+.section-header {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
 }

@@ -44,3 +44,56 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
+
+/* ----------------------------
+   SCROLLBAR (Premium SaaS Style)
+----------------------------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.6);
+}
+
+/* ----------------------------
+   PREMIUM UTILITY CLASSES
+----------------------------- */
+
+.glass {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.dark .glass {
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.section-spacing {
+  padding: 2rem;
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
