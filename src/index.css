@@ -3,13 +3,44 @@
 @tailwind utilities;
 
 /* -----------------------
-  Root Variables - Modern Palette
+   Design System Variables
 ------------------------- */
+
+/* LIGHT MODE (default) */
 :root {
-  /* Enhanced Color Palette */
-  --color-bg-dark: #0F0A1A;       /* Deeper, richer dark */
-  --color-bg-light: #F8F9FE;      /* Clean, bright light mode */
-  --color-text-dark: rgba(255, 255, 255, 0.95);
-  --color-text-light: #1A1A2E;
-  --color-text-muted: rgba(255, 255, 255, 0.6);
+  --bg: #F8F9FE;
+  --surface: #FFFFFF;
+  --text-primary: #1A1A2E;
+  --text-secondary: #64748B;
+  --border: #E2E8F0;
+
+  --primary: #6366F1;
+  --success: #22C55E;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+}
+
+/* DARK MODE */
+.dark {
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --border: #334155;
+
+  --primary: #818CF8;
+  --success: #4ADE80;
+  --danger: #F87171;
+  --warning: #FBBF24;
+}
+
+/* -----------------------
+   Global Styles
+------------------------- */
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }

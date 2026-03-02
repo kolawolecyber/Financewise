@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AppLayout from "../components/layout/AppLayout";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
@@ -43,16 +44,67 @@ function App() {
       <Router>
         <GlobalLoader loading={loading} />
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/goals" element={<Goals />} />
-          <Route path="/goal-dashboard" element={<GoalDashboard />} />
-          <Route path="/category" element={<Category />} />
-          <Route path="/transactions" element={<Transaction />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/usersettings" element={<UserSettings />} />
-        </Routes>
+  <Route
+    path="/"
+    element={
+      <AppLayout>
+        <Dashboard />
+      </AppLayout>
+    }
+  />
+  <Route
+    path="/goals"
+    element={
+      <AppLayout>
+        <Goals />
+      </AppLayout>
+    }
+  />
+  <Route
+    path="/goal-dashboard"
+    element={
+      <AppLayout>
+        <GoalDashboard />
+      </AppLayout>
+    }
+  />
+  <Route
+    path="/category"
+    element={
+      <AppLayout>
+        <Category />
+      </AppLayout>
+    }
+  />
+  <Route
+    path="/transactions"
+    element={
+      <AppLayout>
+        <Transaction />
+      </AppLayout>
+    }
+  />
+  <Route
+    path="/profile"
+    element={
+      <AppLayout>
+        <Profile />
+      </AppLayout>
+    }
+  />
+  <Route
+    path="/usersettings"
+    element={
+      <AppLayout>
+        <UserSettings />
+      </AppLayout>
+    }
+  />
+
+  {/* Auth pages remain clean */}
+  <Route path="/login" element={<Login />} />
+  <Route path="/signup" element={<Signup />} />
+</Routes>
       </Router>
     </AuthProvider>
   );

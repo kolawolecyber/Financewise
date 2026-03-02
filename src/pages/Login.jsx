@@ -11,13 +11,15 @@ const Login = () => {
   const { login: authLogin } = useAuth();
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value.trim() });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     const result = await login(form);
+
     setLoading(false);
 
     if (result.token) {
@@ -26,63 +28,103 @@ const Login = () => {
       setMessage("Successful");
       setTimeout(() => navigate("/"), 200);
     } else {
-      setMessage(result.message || "Signup Failed");
+      setMessage(result.message || "Login Failed");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-pink-100 via-white to-purple-100 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white w-full max-w-sm p-8 rounded-3xl shadow-xl border border-gray-100 transform transition-all"
-      >
-        {/* Title */}
-        <h2 className="text-3xl font-extrabold text-center bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6">
-          Welcome Back ✨
-        </h2>
+    <div className="min-h-screen flex items-center justify-center bg-bg px-4 transition-colors duration-500">
 
-        {/* Email */}
-        <label className="text-sm text-gray-600">Email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          onChange={handleChange}
-          className="w-full mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-        />
+      {/* Card */}
+      <div className="w-full max-w-md bg-surface border border-border rounded-2xl shadow-premium p-8 fade-in">
 
-        {/* Password */}
-        <label className="text-sm text-gray-600">Password</label>
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          onChange={handleChange}
-          className="w-full mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
-        />
+        {/* Logo / Brand */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-primary">
+            FinTrackr
+          </h1>
+          <p className="text-textSecondary text-sm mt-2">
+            Welcome back. Please sign in to continue.
+          </p>
+        </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-2xl font-semibold shadow-md hover:scale-105 transition transform"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
+        <form onSubmit={handleSubmit} className="space-y-5">
 
-        {/* Message */}
-        <p className="text-sm text-red-500 text-center mt-3">{message}</p>
+          {/* Email */}
+          <div>
+            <label className="block text-sm text-textSecondary mb-1">
+              Email Address
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              autoComplete="email"
+              placeholder="you@example.com"
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl border border-border bg-transparent 
+                         focus:ring-2 focus:ring-primary focus:outline-none 
+                         transition-all duration-200"
+            />
+          </div>
 
-        {/* Signup link */}
-        <p className="text-center text-gray-600 mt-4 text-sm">
-          Don’t have an account?{" "}
-          <Link
-            to="/signup"
-            className="text-purple-600 font-semibold hover:underline"
+          {/* Password */}
+          <div>
+            <label className="block text-sm text-textSecondary mb-1">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              required
+              autoComplete="current-password"
+              placeholder="Enter your password"
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl border border-border bg-transparent 
+                         focus:ring-2 focus:ring-primary focus:outline-none 
+                         transition-all duration-200"
+            />
+          </div>
+
+          {/* Error Message */}
+          {message && (
+            <div className="text-sm text-danger bg-red-50 dark:bg-red-900/30 
+                            border border-red-200 dark:border-red-700 
+                            px-3 py-2 rounded-lg text-center">
+              {message}
+            </div>
+          )}
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-xl bg-primary text-white font-semibold
+                       hover:opacity-90 active:scale-[0.98] 
+                       transition-all duration-200 shadow-md"
           >
-            Sign up
-          </Link>
-        </p>
-      </form>
+            {loading ? "Signing in..." : "Sign In"}
+          </button>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-border"></div>
+            <span className="text-xs text-textSecondary">or</span>
+            <div className="flex-1 h-px bg-border"></div>
+          </div>
+
+          {/* Signup */}
+          <p className="text-center text-sm text-textSecondary">
+            Don’t have an account?{" "}
+            <Link
+              to="/signup"
+              className="text-primary font-medium hover:underline"
+            >
+              Create one
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

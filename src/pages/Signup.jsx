@@ -9,6 +9,7 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState("");
@@ -25,7 +26,7 @@ const Signup = () => {
   };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value.trim() });
   };
 
   const handleSubmit = async (e) => {
@@ -43,7 +44,7 @@ const Signup = () => {
     setLoading(false);
 
     if (result.token) {
-      setMessage("Signup successful!");
+      setMessage("Account created successfully!");
       setTimeout(() => navigate("/login"), 500);
     } else {
       setMessage(result.message || "Signup failed");
@@ -51,82 +52,134 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-100 via-white to-pink-100 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white w-full max-w-sm p-8 rounded-3xl shadow-xl border border-gray-100"
-      >
-        {/* Title */}
-        <h2 className="text-3xl font-extrabold text-center mb-6 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-          Create Account 🌸
-        </h2>
+    <div className="min-h-screen flex items-center justify-center bg-bg px-4 transition-colors duration-500">
+      
+      <div className="w-full max-w-md bg-surface border border-border rounded-2xl shadow-premium p-8 fade-in">
 
-        {/* Name */}
-        <label className="text-sm text-gray-600">Name</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter your name"
-          onChange={handleChange}
-          required
-          className="w-full mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
-        />
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-primary">
+            Create Your Account
+          </h1>
+          <p className="text-textSecondary text-sm mt-2">
+            Start tracking your finances professionally.
+          </p>
+        </div>
 
-        {/* Email */}
-        <label className="text-sm text-gray-600">Email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          onChange={handleChange}
-          required
-          className="w-full mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-        />
+        <form onSubmit={handleSubmit} className="space-y-5">
 
-        {/* Password */}
-        <label className="text-sm text-gray-600">Password</label>
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter a password"
-          onChange={handleChange}
-          required
-          className="w-full mt-1 mb-3 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-400 focus:outline-none"
-        />
+          {/* Name */}
+          <div>
+            <label className="block text-sm text-textSecondary mb-1">
+              Full Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              required
+              autoComplete="name"
+              placeholder="John Doe"
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl border border-border bg-transparent 
+                         focus:ring-2 focus:ring-primary focus:outline-none 
+                         transition-all duration-200"
+            />
+          </div>
 
-        {/* Confirm Password */}
-        <label className="text-sm text-gray-600">Confirm Password</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Re-enter password"
-          onChange={handleChange}
-          required
-          className="w-full mt-1 mb-4 p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-        />
+          {/* Email */}
+          <div>
+            <label className="block text-sm text-textSecondary mb-1">
+              Email Address
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              autoComplete="email"
+              placeholder="you@example.com"
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl border border-border bg-transparent 
+                         focus:ring-2 focus:ring-primary focus:outline-none 
+                         transition-all duration-200"
+            />
+          </div>
 
-        {/* Signup Button */}
-        <button
-          type="submit"
-          className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 rounded-2xl font-semibold shadow-md hover:scale-105 transition transform"
-        >
-          {loading ? "Signing up..." : "Signup"}
-        </button>
+          {/* Password */}
+          <div>
+            <label className="block text-sm text-textSecondary mb-1">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              required
+              autoComplete="new-password"
+              placeholder="Minimum 6 characters"
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl border border-border bg-transparent 
+                         focus:ring-2 focus:ring-primary focus:outline-none 
+                         transition-all duration-200"
+            />
+          </div>
 
-        {/* Messages */}
-        <p className="text-sm text-red-500 mt-3 text-center">{message}</p>
-        {errors && (
-          <p className="text-sm text-red-500 mt-1 text-center">{errors}</p>
-        )}
+          {/* Confirm Password */}
+          <div>
+            <label className="block text-sm text-textSecondary mb-1">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              required
+              autoComplete="new-password"
+              placeholder="Re-enter password"
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl border border-border bg-transparent 
+                         focus:ring-2 focus:ring-primary focus:outline-none 
+                         transition-all duration-200"
+            />
+          </div>
 
-        {/* Login Link */}
-        <p className="text-center text-gray-600 mt-4 text-sm">
-          Already have an account?{" "}
-          <Link to="/login" className="text-purple-600 font-semibold hover:underline">
-            Sign In
-          </Link>
-        </p>
-      </form>
+          {/* Error Message */}
+          {errors && (
+            <div className="text-sm text-danger bg-red-50 dark:bg-red-900/30 
+                            border border-red-200 dark:border-red-700 
+                            px-3 py-2 rounded-lg text-center">
+              {errors}
+            </div>
+          )}
+
+          {message && (
+            <div className="text-sm text-success bg-green-50 dark:bg-green-900/30 
+                            border border-green-200 dark:border-green-700 
+                            px-3 py-2 rounded-lg text-center">
+              {message}
+            </div>
+          )}
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-xl bg-primary text-white font-semibold
+                       hover:opacity-90 active:scale-[0.98] 
+                       transition-all duration-200 shadow-md"
+          >
+            {loading ? "Creating Account..." : "Sign Up"}
+          </button>
+
+          {/* Footer */}
+          <p className="text-center text-sm text-textSecondary">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-primary font-medium hover:underline"
+            >
+              Sign In
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
