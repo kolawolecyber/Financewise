@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react"; // icons
 import logo from "../assets/financewise.png"
 
 const Navbar = () => {
-  const { token, logout } = useAuth();
+  const { token,  logout } = useAuth();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -15,8 +15,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-100 p-4 shadow-md ">
-      <div className="flex items-center justify-between ">
+     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                    <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+                     
         {/* Home */}
        <Link className="font-bold text-lg flex items-center gap-2" to="/">
   <img
@@ -26,8 +30,12 @@ const Navbar = () => {
   />
   Financewise
 </Link>
+</div>
+</div>
 
         {/* Desktop links */}
+        <div className="flex items-center space-x-6">
+                        <div className="hidden md:block text-right">
         <div className="hidden md:flex gap-6 items-center">
           <Link className="hover:underline" to="/">Home</Link>
           <Link className="hover:underline" to="/goals">Manage Goals</Link>
@@ -35,7 +43,7 @@ const Navbar = () => {
           <Link className="hover:underline" to="/category">Category</Link>
           <Link className="hover:underline" to="/transactions">Transactions</Link>
           <Link className="hover:underline" to="/profile">Profile</Link>
-
+</div>
           {token && (
             <button
               onClick={handleLogout}
@@ -45,7 +53,9 @@ const Navbar = () => {
             </button>
           )}
         </div>
-
+ </div>
+                </div>
+            
         {/* Hamburger for mobile */}
         <button
           className="block md:hidden p-2"
