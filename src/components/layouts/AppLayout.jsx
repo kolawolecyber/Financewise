@@ -281,7 +281,7 @@ export default function AppLayout({ children }) {
           border:"1.5px solid rgba(99,102,241,0.20)",
         }}>
           <img src={logo} alt="Logo"
-               style={{ width:"20%", height:"20%", objectFit:"cover" }} />
+               style={{ width:"5%", height:"5%", objectFit:"cover" }} />
         </div>
         {!mini && (
           <span style={{
