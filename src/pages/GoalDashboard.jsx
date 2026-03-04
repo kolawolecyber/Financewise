@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+
 import GoalDonut from "../components/GoalDonut";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -217,7 +217,7 @@ const GoalDashboard = () => {
       `}</style>
 
       <div className="min-h-screen pb-24" style={{ background: "var(--bg,#f0f2ff)" }}>
-        <Navbar />
+        
 
         <div className="max-w-6xl mx-auto px-4 pt-8">
 

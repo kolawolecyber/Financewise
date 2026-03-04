@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import API from "../services/api";
-import Navbar from "../components/Navbar";
+
 import TransactionChart from "../components/TransactionChart";
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
@@ -270,7 +270,7 @@ const Transaction = () => {
       `}</style>
 
       <div className="min-h-screen pb-24" style={{ background: "var(--bg,#f0f2ff)" }}>
-        <Navbar />
+      
 
         <div className="max-w-5xl mx-auto px-4 pt-8">
 

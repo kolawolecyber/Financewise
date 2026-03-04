@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
 const IconEdit = ({ className, style }) => (
@@ -196,7 +196,7 @@ const Profile = () => {
       `}</style>
 
       <div className="min-h-screen" style={{ background: "var(--bg, #f0f2ff)" }}>
-        <Navbar />
+        
 
         <div className="max-w-lg mx-auto px-4 pt-8 pb-24">
 

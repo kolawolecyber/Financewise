@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+
 import API from "../services/api";
 import GoalDonut from "../components/GoalDonut";
 
@@ -372,7 +372,7 @@ const Goals = () => {
       `}</style>
 
       <div className="min-h-screen pb-24" style={{ background: "var(--bg,#f0f2ff)" }}>
-        <Navbar />
+  
 
         <div className="max-w-5xl mx-auto px-4 pt-8">
 
