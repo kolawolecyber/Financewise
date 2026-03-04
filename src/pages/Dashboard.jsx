@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchBudgets, createBudget, fetchExpenses } from "../utils/Api";
 import BudgetCardWithExpenses from "../components/BudgetCardWithExpense";
 import BudgetChart from "../components/BudgetChart";
-import Navbar from "../components/Navbar";
+
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
 const IconPlus = ({ style }) => (
@@ -299,7 +299,7 @@ const Dashboard = () => {
 
       <div className="min-h-screen pb-24"
            style={{ background:"var(--bg,#f0f2ff)" }}>
-        <Navbar />
+        
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
 

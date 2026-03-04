@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import logo from "../assets/financewise.png";
 
@@ -59,15 +59,15 @@ const IconSettings = () => (
   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"
        strokeWidth={1.8} style={{ width:"18px", height:"18px", flexShrink:0 }}>
     <path strokeLinecap="round" strokeLinejoin="round"
-      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724
-         1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724
-         1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724
-         1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724
-         1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724
-         1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724
-         1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724
-         1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608
-         2.296.07 2.572-1.065z" />
+      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0
+         002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0
+         001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0
+         00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0
+         00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0
+         00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0
+         00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0
+         001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07
+         2.572-1.065z" />
     <path strokeLinecap="round" strokeLinejoin="round"
       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
   </svg>
@@ -118,53 +118,54 @@ const IconX = () => (
 );
 const IconChevronLeft = () => (
   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"
-       strokeWidth={2} style={{ width:"16px", height:"16px" }}>
+       strokeWidth={2} style={{ width:"14px", height:"14px" }}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
   </svg>
 );
 const IconChevronRight = () => (
   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"
-       strokeWidth={2} style={{ width:"16px", height:"16px" }}>
+       strokeWidth={2} style={{ width:"14px", height:"14px" }}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
   </svg>
 );
 
-/* ── Nav items config ───────────────────────────────────────────────── */
+/* ── Nav config ─────────────────────────────────────────────────────── */
 const NAV_ITEMS = [
-  { path: "/",              label: "Dashboard",     Icon: IconDashboard, section: "main"  },
-  { path: "/transactions",  label: "Transactions",  Icon: IconSwap,      section: "main"  },
-  { path: "/goals",         label: "Goals",         Icon: IconTarget,    section: "main"  },
-  { path: "/goal-dashboard",label: "Goal Overview", Icon: IconChart,     section: "main"  },
-  { path: "/category",      label: "Categories",    Icon: IconTag,       section: "main"  },
-  { path: "/budgets",       label: "Budgets",       Icon: IconWallet,    section: "main"  },
-  { path: "/profile",       label: "Profile",       Icon: IconUser,      section: "account"},
-  { path: "/usersettings",  label: "Settings",      Icon: IconSettings,  section: "account"},
+  { path:"/",              label:"Dashboard",    Icon:IconDashboard, section:"main"    },
+  { path:"/transactions",  label:"Transactions", Icon:IconSwap,      section:"main"    },
+  { path:"/goals",         label:"Goals",        Icon:IconTarget,    section:"main"    },
+  { path:"/goal-dashboard",label:"Goal Overview",Icon:IconChart,     section:"main"    },
+  { path:"/category",      label:"Categories",   Icon:IconTag,       section:"main"    },
+  { path:"/budgets",       label:"Budgets",      Icon:IconWallet,    section:"main"    },
+  { path:"/profile",       label:"Profile",      Icon:IconUser,      section:"account" },
+  { path:"/usersettings",  label:"Settings",     Icon:IconSettings,  section:"account" },
 ];
+
+const SIDEBAR_FULL  = 240;
+const SIDEBAR_MINI  = 68;
 
 /* ══════════════════════════════════════════════════════════════════════
    APP LAYOUT
 ══════════════════════════════════════════════════════════════════════ */
 export default function AppLayout({ children }) {
-  const location              = useLocation();
-  const navigate              = useNavigate();
-  const { token, logout }     = useAuth();
+  const location          = useLocation();
+  const navigate          = useNavigate();
+  const { token, logout } = useAuth();
 
-  const [collapsed,   setCollapsed]   = useState(false);
-  const [darkMode,    setDarkMode]    = useState(false);
-  const [mobileOpen,  setMobileOpen]  = useState(false);
+  const [collapsed,  setCollapsed]  = useState(false);
+  const [darkMode,   setDarkMode]   = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const overlayRef = useRef(null);
 
-  /* ── Theme init ──────────────────────────────────────────────────── */
+  /* ── theme init ──────────────────────────────────────────────────── */
   useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
-    const isDark = saved === "dark" || (!saved && prefersDark);
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-      setDarkMode(true);
-    }
+    const saved      = localStorage.getItem("theme");
+    const preferDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
+    const isDark     = saved === "dark" || (!saved && preferDark);
+    if (isDark) { document.documentElement.classList.add("dark"); setDarkMode(true); }
   }, []);
 
-  /* close mobile drawer on route change */
+  /* close drawer on navigation */
   useEffect(() => { setMobileOpen(false); }, [location.pathname]);
 
   const toggleTheme = () => {
@@ -173,138 +174,121 @@ export default function AppLayout({ children }) {
     setDarkMode(isDark);
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
+  const handleLogout = () => { logout(); navigate("/login"); };
 
   const isActive = (path) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
-  /* pretty-print the current page name for topbar */
-  const pageName = (() => {
-    const match = NAV_ITEMS.find(n => isActive(n.path));
-    return match?.label ?? "Dashboard";
-  })();
+  const pageName = NAV_ITEMS.find(n => isActive(n.path))?.label ?? "Dashboard";
 
-  /* ── Shared nav link renderer ───────────────────────────────────── */
+  /* ── Nav link ───────────────────────────────────────────────────── */
   const NavLink = ({ path, label, Icon, mini }) => {
     const active = isActive(path);
     return (
-      <Link to={path}
+      <Link to={path} title={mini ? label : undefined}
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: mini ? "0" : "12px",
+          display:"flex", alignItems:"center",
+          gap: mini ? 0 : "10px",
           justifyContent: mini ? "center" : "flex-start",
-          padding: mini ? "10px" : "10px 12px",
-          borderRadius: "12px",
-          textDecoration: "none",
-          fontSize: "0.8125rem",
-          fontWeight: 600,
-          background: active ? "rgba(99,102,241,0.12)" : "transparent",
-          color: active
-            ? "#6366f1"
-            : "var(--text-secondary,#64748b)",
-          boxShadow: active
-            ? "inset 0 0 0 1px rgba(99,102,241,0.20)" : "none",
-          transition: "background 0.18s ease, color 0.18s ease, transform 0.18s ease",
-          position: "relative",
+          padding: mini ? "11px 0" : "9px 12px",
+          borderRadius:"10px",
+          textDecoration:"none",
+          fontSize:"0.8rem", fontWeight:600,
+          color: active ? "#6366f1" : "var(--text-secondary,#64748b)",
+          background: active ? "rgba(99,102,241,0.10)" : "transparent",
+          position:"relative",
+          transition:"all 0.18s ease",
+          overflow:"hidden",
         }}
-        className="al-nav-link"
-        title={mini ? label : undefined}>
+        className="al-link">
 
-        {/* Active indicator bar */}
+        {/* left accent bar */}
         {active && !mini && (
-          <div style={{
-            position: "absolute", left: 0, top: "20%",
-            width: "3px", height: "60%",
-            borderRadius: "0 3px 3px 0",
-            background: "#6366f1",
+          <span style={{
+            position:"absolute", left:0, top:"18%",
+            width:"3px", height:"64%", borderRadius:"0 3px 3px 0",
+            background:"#6366f1",
           }} />
         )}
 
-        <div style={{
-          width: mini ? "auto" : "28px",
-          height: mini ? "auto" : "28px",
-          borderRadius: "8px",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          flexShrink: 0,
-          background: active
-            ? "rgba(99,102,241,0.15)"
-            : "transparent",
-          transition: "background 0.18s ease",
+        {/* icon bubble */}
+        <span style={{
+          width:"28px", height:"28px", borderRadius:"8px", flexShrink:0,
+          display:"flex", alignItems:"center", justifyContent:"center",
+          background: active ? "rgba(99,102,241,0.14)" : "transparent",
+          transition:"background 0.18s ease",
         }}>
           <Icon />
-        </div>
+        </span>
 
-        {!mini && <span style={{ flex: 1 }}>{label}</span>}
+        {/* label — hidden when mini */}
+        {!mini && (
+          <span style={{
+            flex:1, whiteSpace:"nowrap", overflow:"hidden",
+            textOverflow:"ellipsis",
+          }}>
+            {label}
+          </span>
+        )}
       </Link>
     );
   };
 
-  /* ── Section label ──────────────────────────────────────────────── */
-  const SectionLabel = ({ label, mini }) => mini ? (
-    <div style={{
-      height:"1px", background:"var(--border,#e2e8f0)",
-      margin:"8px 12px",
-    }} />
-  ) : (
-    <p style={{
-      fontSize:"0.65rem", fontWeight:700,
-      textTransform:"uppercase", letterSpacing:"0.08em",
-      color:"var(--text-muted,#94a3b8)",
-      padding:"0 12px", margin:"16px 0 4px",
-    }}>
-      {label}
-    </p>
-  );
+  /* ── Section divider ────────────────────────────────────────────── */
+  const SectionLabel = ({ label, mini }) =>
+    mini ? (
+      <div style={{ height:"1px", background:"var(--border,#e2e8f0)", margin:"6px 10px" }} />
+    ) : (
+      <p style={{
+        fontSize:"0.6rem", fontWeight:800, letterSpacing:"0.1em",
+        textTransform:"uppercase", color:"var(--text-muted,#94a3b8)",
+        margin:"14px 0 4px 12px", padding:0,
+      }}>{label}</p>
+    );
 
-  /* ── Sidebar content (shared between desktop + mobile) ─────────── */
-  const SidebarContent = ({ mini = false }) => (
-    <div style={{
-      display:"flex", flexDirection:"column", height:"100%",
-    }}>
+  /* ── Shared sidebar body ────────────────────────────────────────── */
+  const SidebarBody = ({ mini = false }) => (
+    <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
 
-      {/* Logo */}
+      {/* Logo row */}
       <div style={{
-        display:"flex", alignItems:"center",
-        gap:"10px", padding: mini ? "20px 0 20px" : "20px 16px 20px",
+        display:"flex", alignItems:"center", gap:"10px",
+        padding: mini ? "18px 0" : "18px 16px",
         justifyContent: mini ? "center" : "flex-start",
-        borderBottom: "1px solid var(--border,#e2e8f0)",
-        marginBottom: "8px",
+        borderBottom:"1px solid var(--border,#e2e8f0)",
+        flexShrink:0,
       }}>
         <div style={{
           width:"32px", height:"32px", borderRadius:"10px",
           overflow:"hidden", flexShrink:0,
           boxShadow:"0 2px 8px rgba(99,102,241,0.28)",
-          border:"1.5px solid rgba(99,102,241,0.20)",
+          border:"1.5px solid rgba(99,102,241,0.18)",
         }}>
-          <img src={logo} alt="Logo"
-               style={{ width:"5%", height:"5%", objectFit:"cover" }} />
+          <img src={logo} alt="logo"
+               style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
         </div>
         {!mini && (
           <span style={{
-            fontWeight:800, fontSize:"1rem", letterSpacing:"-0.02em",
+            fontWeight:800, fontSize:"0.9375rem", letterSpacing:"-0.02em",
             background:"linear-gradient(135deg,#6366f1,#8b5cf6)",
             WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent",
+            whiteSpace:"nowrap",
           }}>
             FinanceWise
           </span>
         )}
       </div>
 
-      {/* Main nav */}
-      <nav style={{ flex:1, overflowY:"auto", padding:"0 8px" }}>
+      {/* Nav items */}
+      <nav style={{ flex:1, overflowY:"auto", overflowX:"hidden", padding:"8px" }}>
         <SectionLabel label="Main" mini={mini} />
-        <div style={{ display:"flex", flexDirection:"column", gap:"2px" }}>
+        <div style={{ display:"flex", flexDirection:"column", gap:"1px" }}>
           {NAV_ITEMS.filter(n => n.section === "main").map(n => (
             <NavLink key={n.path} {...n} mini={mini} />
           ))}
         </div>
-
         <SectionLabel label="Account" mini={mini} />
-        <div style={{ display:"flex", flexDirection:"column", gap:"2px" }}>
+        <div style={{ display:"flex", flexDirection:"column", gap:"1px" }}>
           {NAV_ITEMS.filter(n => n.section === "account").map(n => (
             <NavLink key={n.path} {...n} mini={mini} />
           ))}
@@ -313,88 +297,109 @@ export default function AppLayout({ children }) {
 
       {/* Bottom actions */}
       <div style={{
-        padding: mini ? "12px 8px" : "12px 16px",
+        padding: mini ? "10px 8px" : "10px 12px",
         borderTop:"1px solid var(--border,#e2e8f0)",
-        display:"flex", flexDirection:"column", gap:"6px",
+        display:"flex", flexDirection:"column", gap:"4px",
+        flexShrink:0,
       }}>
-        {/* Theme toggle */}
-        <button onClick={toggleTheme}
-          className="al-nav-link"
+        {/* Theme */}
+        <button onClick={toggleTheme} title={mini ? (darkMode ? "Light mode" : "Dark mode") : undefined}
+          className="al-link"
           style={{
-            display:"flex", alignItems:"center",
-            gap: mini ? "0" : "10px",
+            display:"flex", alignItems:"center", gap: mini ? 0 : "10px",
             justifyContent: mini ? "center" : "flex-start",
-            padding: mini ? "10px" : "10px 12px",
-            borderRadius:"12px",
+            padding: mini ? "11px 0" : "9px 12px",
+            borderRadius:"10px", width:"100%",
             fontSize:"0.8rem", fontWeight:600,
             color:"var(--text-secondary,#64748b)",
             background:"transparent", border:"none", cursor:"pointer",
-            width:"100%",
-            transition:"background 0.18s ease, color 0.18s ease",
           }}>
-          {darkMode ? <IconSun /> : <IconMoon />}
-          {!mini && (
-            <span>{darkMode ? "Light mode" : "Dark mode"}</span>
-          )}
+          <span style={{
+            width:"28px", height:"28px", borderRadius:"8px", flexShrink:0,
+            display:"flex", alignItems:"center", justifyContent:"center",
+            background:"rgba(99,102,241,0.08)",
+          }}>
+            {darkMode ? <IconSun /> : <IconMoon />}
+          </span>
+          {!mini && <span style={{ whiteSpace:"nowrap" }}>
+            {darkMode ? "Light mode" : "Dark mode"}
+          </span>}
         </button>
 
         {/* Logout */}
         {token && (
-          <button onClick={handleLogout}
-            className="al-logout-btn"
+          <button onClick={handleLogout} title={mini ? "Logout" : undefined}
+            className="al-logout"
             style={{
-              display:"flex", alignItems:"center",
-              gap: mini ? "0" : "10px",
+              display:"flex", alignItems:"center", gap: mini ? 0 : "10px",
               justifyContent: mini ? "center" : "flex-start",
-              padding: mini ? "10px" : "10px 12px",
-              borderRadius:"12px",
+              padding: mini ? "11px 0" : "9px 12px",
+              borderRadius:"10px", width:"100%",
               fontSize:"0.8rem", fontWeight:600,
               color:"#dc2626",
               background:"rgba(239,68,68,0.06)",
               border:"none", cursor:"pointer",
-              width:"100%",
-              transition:"background 0.18s ease",
             }}>
-            <IconLogout />
-            {!mini && <span>Logout</span>}
+            <span style={{
+              width:"28px", height:"28px", borderRadius:"8px", flexShrink:0,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              background:"rgba(239,68,68,0.10)",
+            }}>
+              <IconLogout />
+            </span>
+            {!mini && <span style={{ whiteSpace:"nowrap" }}>Logout</span>}
           </button>
         )}
       </div>
     </div>
   );
 
+  /* ══════════════════════════════════════════════════════════════════ */
   return (
     <>
       <style>{`
         @keyframes al-slide-in {
-          from { opacity:0; transform:translateX(-20px); }
-          to   { opacity:1; transform:translateX(0);     }
+          from { opacity:0; transform:translateX(-24px); }
+          to   { opacity:1; transform:translateX(0); }
         }
-        @keyframes al-fade-in {
-          from { opacity:0; }
-          to   { opacity:1; }
+        @keyframes al-fade {
+          from { opacity:0; } to { opacity:1; }
         }
 
-        .al-nav-link:hover {
-          background: rgba(99,102,241,0.07) !important;
+        /* sidebar nav links */
+        .al-link:hover {
+          background: rgba(99,102,241,0.08) !important;
           color: #6366f1 !important;
           transform: translateX(2px);
         }
-        .al-logout-btn:hover {
+        .al-logout:hover {
           background: rgba(239,68,68,0.12) !important;
         }
-        .al-collapse-btn {
-          transition: all 0.18s ease;
+
+        /* collapse toggle */
+        .al-toggle {
+          transition: left 0.3s cubic-bezier(0.16,1,0.3,1), background 0.18s ease;
         }
-        .al-collapse-btn:hover {
-          background: rgba(99,102,241,0.08) !important;
+        .al-toggle:hover {
+          background: rgba(99,102,241,0.10) !important;
           color: #6366f1 !important;
         }
-        .al-mobile-overlay {
-          animation: al-fade-in 0.2s ease both;
+
+        /* topbar icon buttons */
+        .al-topbtn {
+          transition: background 0.18s ease, color 0.18s ease;
         }
-        .al-mobile-drawer {
+        .al-topbtn:hover {
+          background: rgba(99,102,241,0.10) !important;
+          color: #6366f1 !important;
+        }
+
+        /* mobile drawer */
+        .al-drawer {
           animation: al-slide-in 0.3s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .al-overlay {
+          animation: al-fade 0.2s ease both;
         }
       `}</style>
 
@@ -402,37 +407,43 @@ export default function AppLayout({ children }) {
         display:"flex", minHeight:"100vh",
         background:"var(--bg,#f0f2ff)",
         color:"var(--text-primary,#0f172a)",
+        position:"relative",
       }}>
 
-        {/* ── Desktop sidebar ─────────────────────────── */}
-        <aside
-          style={{
-            width: collapsed ? "72px" : "240px",
-            flexShrink: 0,
-            background:"var(--surface,#fff)",
-            borderRight:"1px solid var(--border,#e2e8f0)",
-            boxShadow:"2px 0 12px rgba(99,102,241,0.05)",
-            transition:"width 0.3s cubic-bezier(0.16,1,0.3,1)",
-            display:"flex", flexDirection:"column",
-            position:"sticky", top:0, height:"100vh",
-            overflow:"hidden",
-          }}
-          className="hidden md:flex">
-
-          <SidebarContent mini={collapsed} />
+        {/* ════════════════════════════════════════════
+            DESKTOP SIDEBAR
+        ════════════════════════════════════════════ */}
+        <aside style={{
+          width: collapsed ? `${SIDEBAR_MINI}px` : `${SIDEBAR_FULL}px`,
+          flexShrink:0,
+          background:"var(--surface,#fff)",
+          borderRight:"1px solid var(--border,#e2e8f0)",
+          boxShadow:"2px 0 12px rgba(99,102,241,0.05)",
+          transition:"width 0.3s cubic-bezier(0.16,1,0.3,1)",
+          position:"sticky", top:0, height:"100vh",
+          overflow:"hidden",
+          /* hidden on mobile */
+          display:"none",
+        }}
+        className="md:block" /* Tailwind shows it on md+ */
+        >
+          <SidebarBody mini={collapsed} />
         </aside>
 
-        {/* ── Collapse toggle (desktop) ────────────────── */}
+        {/* ── Collapse toggle pill (desktop only) ─── */}
         <button
           onClick={() => setCollapsed(c => !c)}
-          className="al-collapse-btn hidden md:flex"
+          className="al-toggle"
           style={{
+            display:"none", /* overridden below for md */
             position:"fixed",
             top:"50%",
-            left: collapsed ? "60px" : "228px",
+            left: collapsed
+              ? `${SIDEBAR_MINI - 1}px`
+              : `${SIDEBAR_FULL - 1}px`,
             transform:"translateY(-50%)",
-            zIndex:40,
-            width:"20px", height:"32px",
+            zIndex:45,
+            width:"18px", height:"36px",
             borderRadius:"0 8px 8px 0",
             background:"var(--surface,#fff)",
             border:"1px solid var(--border,#e2e8f0)",
@@ -440,82 +451,99 @@ export default function AppLayout({ children }) {
             alignItems:"center", justifyContent:"center",
             cursor:"pointer",
             color:"var(--text-muted,#94a3b8)",
-            boxShadow:"2px 0 8px rgba(99,102,241,0.08)",
-            transition:"left 0.3s cubic-bezier(0.16,1,0.3,1), background 0.18s ease",
-          }}>
+            boxShadow:"3px 0 10px rgba(99,102,241,0.08)",
+          }}
+          /* show only md+ via inline media — use className trick */
+          ref={el => {
+            if (el) el.style.display =
+              window.innerWidth >= 768 ? "flex" : "none";
+          }}
+          id="collapse-toggle"
+        >
           {collapsed ? <IconChevronRight /> : <IconChevronLeft />}
         </button>
 
-        {/* ── Mobile overlay ──────────────────────────── */}
+        {/* ════════════════════════════════════════════
+            MOBILE OVERLAY
+        ════════════════════════════════════════════ */}
         {mobileOpen && (
-          <div className="al-mobile-overlay md:hidden"
+          <div className="al-overlay"
             onClick={() => setMobileOpen(false)}
             style={{
-              position:"fixed", inset:0, zIndex:40,
-              background:"rgba(0,0,0,0.40)",
+              position:"fixed", inset:0, zIndex:50,
+              background:"rgba(0,0,0,0.45)",
               backdropFilter:"blur(4px)",
+              WebkitBackdropFilter:"blur(4px)",
             }} />
         )}
 
-        {/* ── Mobile drawer ───────────────────────────── */}
+        {/* ════════════════════════════════════════════
+            MOBILE DRAWER
+        ════════════════════════════════════════════ */}
         {mobileOpen && (
-          <div className="al-mobile-drawer md:hidden"
+          <div className="al-drawer"
             style={{
               position:"fixed", top:0, left:0, bottom:0,
-              width:"272px", zIndex:50,
+              width:"268px", zIndex:55,
               background:"var(--surface,#fff)",
               borderRight:"1px solid var(--border,#e2e8f0)",
-              boxShadow:"4px 0 24px rgba(99,102,241,0.12)",
-              overflowY:"auto",
+              boxShadow:"6px 0 28px rgba(99,102,241,0.14)",
+              overflowY:"auto", overflowX:"hidden",
             }}>
-            <SidebarContent mini={false} />
+            <SidebarBody mini={false} />
           </div>
         )}
 
-        {/* ── Main content ────────────────────────────── */}
-        <div style={{ flex:1, display:"flex", flexDirection:"column",
-                      minWidth:0, overflow:"hidden" }}>
+        {/* ════════════════════════════════════════════
+            MAIN AREA
+        ════════════════════════════════════════════ */}
+        <div style={{
+          flex:1, display:"flex", flexDirection:"column",
+          minWidth:0, overflow:"hidden",
+        }}>
 
-          {/* Topbar */}
+          {/* ── Topbar ─────────────────────────────── */}
           <header style={{
-            height:"60px",
-            background:"rgba(255,255,255,0.88)",
+            height:"58px", flexShrink:0,
+            background:"rgba(255,255,255,0.90)",
             backdropFilter:"blur(16px)",
             WebkitBackdropFilter:"blur(16px)",
             borderBottom:"1px solid var(--border,#e2e8f0)",
+            boxShadow:"0 1px 10px rgba(99,102,241,0.07)",
             display:"flex", alignItems:"center",
-            justifyContent:"space-between",
-            padding:"0 20px",
+            padding:"0 16px", gap:"12px",
             position:"sticky", top:0, zIndex:30,
-            boxShadow:"0 1px 8px rgba(99,102,241,0.06)",
-            gap:"12px",
           }}>
 
-            {/* Mobile hamburger */}
-            <button onClick={() => setMobileOpen(o => !o)}
-              className="al-collapse-btn md:hidden"
+            {/* Mobile hamburger — only visible on mobile */}
+            <button
+              onClick={() => setMobileOpen(o => !o)}
+              className="al-topbtn"
               style={{
                 width:"36px", height:"36px", borderRadius:"10px",
                 display:"flex", alignItems:"center", justifyContent:"center",
                 background:"var(--surface-raised,#f8fafc)",
                 border:"1px solid var(--border,#e2e8f0)",
                 cursor:"pointer", flexShrink:0,
-                color:"var(--text-secondary,#64748b)",
-              }}>
+                color: mobileOpen ? "#6366f1" : "var(--text-secondary,#64748b)",
+                /* only show on mobile */
+              }}
+              id="mobile-hamburger"
+            >
               {mobileOpen ? <IconX /> : <IconMenu />}
             </button>
 
             {/* Page title */}
-            <div style={{ flex:1 }}>
+            <div style={{ flex:1, minWidth:0 }}>
               <h2 style={{
                 fontSize:"0.9375rem", fontWeight:700, margin:0,
-                color:"var(--text-primary,#0f172a)",
-                letterSpacing:"-0.01em",
+                color:"var(--text-primary,#0f172a)", letterSpacing:"-0.01em",
+                whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis",
               }}>
                 {pageName}
               </h2>
               <p style={{
-                fontSize:"0.7rem", margin:0,
+                fontSize:"0.68rem", margin:0,
                 color:"var(--text-muted,#94a3b8)",
               }}>
                 {new Date().toLocaleDateString("en-GB", {
@@ -525,12 +553,12 @@ export default function AppLayout({ children }) {
               </p>
             </div>
 
-            {/* Right actions */}
-            <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
+            {/* Right controls */}
+            <div style={{ display:"flex", alignItems:"center", gap:"8px", flexShrink:0 }}>
 
-              {/* Theme toggle (topbar, mobile) */}
+              {/* Theme toggle */}
               <button onClick={toggleTheme}
-                className="al-collapse-btn"
+                className="al-topbtn"
                 style={{
                   width:"36px", height:"36px", borderRadius:"10px",
                   display:"flex", alignItems:"center", justifyContent:"center",
@@ -542,29 +570,46 @@ export default function AppLayout({ children }) {
                 {darkMode ? <IconSun /> : <IconMoon />}
               </button>
 
-              {/* Profile avatar */}
+              {/* Profile pill */}
               <Link to="/profile"
                 style={{
                   width:"36px", height:"36px", borderRadius:"10px",
                   display:"flex", alignItems:"center", justifyContent:"center",
                   background:"linear-gradient(135deg,#6366f1,#8b5cf6)",
-                  boxShadow:"0 2px 8px rgba(99,102,241,0.30)",
-                  flexShrink:0, textDecoration:"none",
+                  boxShadow:"0 2px 8px rgba(99,102,241,0.32)",
+                  flexShrink:0, textDecoration:"none", color:"#fff",
                 }}>
                 <IconUser />
               </Link>
             </div>
           </header>
 
-          {/* Page content */}
+          {/* ── Page content ───────────────────────── */}
           <main style={{
-            flex:1, padding:"24px 20px",
-            overflowY:"auto",
+            flex:1, overflowY:"auto",
+            padding:"20px 16px 40px",
           }}>
             {children}
           </main>
         </div>
       </div>
+
+      {/* ── Responsive visibility script ─────────────────────────────
+          Controls desktop-only elements that can't use Tailwind md: prefix
+          because they use inline style display.
+      ──────────────────────────────────────────────────────────────── */}
+      <style>{`
+        @media (min-width: 768px) {
+          #collapse-toggle   { display: flex !important; }
+          #mobile-hamburger  { display: none !important; }
+          .md\\:block        { display: block !important; }
+        }
+        @media (max-width: 767px) {
+          #collapse-toggle   { display: none  !important; }
+          #mobile-hamburger  { display: flex  !important; }
+          .md\\:block        { display: none  !important; }
+        }
+      `}</style>
     </>
   );
 }
