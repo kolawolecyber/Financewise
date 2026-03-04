@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import AppFooter from "../../components/AppFooter"
 import logo from "../../assets/financewise.png";
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
@@ -617,6 +618,7 @@ export default function AppLayout({ children }) {
           {/* Page content */}
           <main style={{ flex:1, overflowY:"auto", padding:"20px 16px 40px" }}>
             {children}
+             <AppFooter />
           </main>
         </div>
       </div>
