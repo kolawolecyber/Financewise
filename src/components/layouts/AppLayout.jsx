@@ -616,10 +616,13 @@ export default function AppLayout({ children }) {
           </header>
 
           {/* Page content */}
-          <main style={{ flex:1, overflowY:"auto", padding:"20px 16px 40px" }}>
-            {children}
-             <AppFooter />
-          </main>
+         <main style={{ flex:1, overflowY:"auto", padding:"20px 16px 0",
+               display:"flex", flexDirection:"column", minHeight:0 }}>
+  <div style={{ flex:1 }}>
+    {children}
+  </div>
+  <AppFooter />
+</main>
         </div>
       </div>
 
