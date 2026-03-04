@@ -135,9 +135,9 @@ const NAV_ITEMS = [
   { path:"/goals",         label:"Goals",        Icon:IconTarget,    section:"main"    },
   { path:"/goal-dashboard",label:"Goal Overview",Icon:IconChart,     section:"main"    },
   { path:"/category",      label:"Categories",   Icon:IconTag,       section:"main"    },
-  { path:"/budgets",       label:"Budgets",      Icon:IconWallet,    section:"main"    },
   { path:"/profile",       label:"Profile",      Icon:IconUser,      section:"account" },
   { path:"/usersettings",  label:"Settings",     Icon:IconSettings,  section:"account" },
+  { path:"/",       label:"Budgets",      Icon:IconWallet,    section:"main"    },
 ];
 
 /* ══════════════════════════════════════════════════════════════════════
