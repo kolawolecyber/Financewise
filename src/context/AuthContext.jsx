@@ -8,6 +8,14 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const handleSessionExpired = () => {
+      setUser(null);
+      setAuthenticated(false);
+      setLoading(false);
+    };
+
+    window.addEventListener("financewise:session-expired", handleSessionExpired);
+
     API.get("/api/profile/settings")
       .then(({ data }) => {
         setUser(data);
@@ -18,6 +26,10 @@ export const AuthProvider = ({ children }) => {
         setAuthenticated(false);
       })
       .finally(() => setLoading(false));
+
+    return () => {
+      window.removeEventListener("financewise:session-expired", handleSessionExpired);
+    };
   }, []);
 
   const apiFetch = async (url, options = {}) => {

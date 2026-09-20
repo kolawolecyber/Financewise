@@ -20,14 +20,12 @@ API.interceptors.response.use(
   (error) => {
     const isAuthRequest = error.config?.url?.includes("/api/auth/");
     if (error.response?.status === 401 && !isAuthRequest) {
-      console.warn("Token expired or invalid. Logging out.");
+      console.warn("Session expired or invalid. Clearing client auth state.");
 
-      // Clear any legacy client state and redirect to login.
+      // Clear legacy cached token data without forcing a full browser refresh.
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      window.location.href = "/login";
-
-     
+      window.dispatchEvent(new CustomEvent("financewise:session-expired"));
     }
 
     return Promise.reject(error);

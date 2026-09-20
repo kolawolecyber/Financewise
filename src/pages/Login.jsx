@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { login } from "../utils/Api";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
@@ -77,6 +77,15 @@ const Login = () => {
   const [focused,  setFocused]  = useState("");
   const navigate = useNavigate();
   const { login: authLogin } = useAuth();
+
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      setMessage({ text: "Your session expired. Please log in again.", type: "error" });
+    };
+
+    window.addEventListener("financewise:session-expired", handleSessionExpired);
+    return () => window.removeEventListener("financewise:session-expired", handleSessionExpired);
+  }, []);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value.trim() });
