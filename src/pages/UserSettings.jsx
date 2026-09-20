@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import API from "../services/api";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useDataRefresh } from "../utils/dataSync";
 
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
@@ -102,7 +103,7 @@ const CURRENCIES = [
    USER SETTINGS
 ══════════════════════════════════════════════════════════════════════ */
 const UserSettings = () => {
-  const { token } = useAuth();
+  const { authenticated } = useAuth();
   const navigate  = useNavigate();
 
   const [previewSource, setPreviewSource] = useState("");
@@ -110,23 +111,24 @@ const UserSettings = () => {
     name: "", email: "", monthlyIncome: "",
     currency: "NGN", financialGoal: "", profilePic: "",
   });
-  const [focused,  setFocused]  = useState("");
   const [saving,   setSaving]   = useState(false);
   const [toast,    setToast]    = useState({ show: false, type: "", msg: "" });
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await API.get("/api/profile/settings", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await API.get("/api/profile/settings");
         setFormData(res.data);
       } catch (err) {
         console.error("Failed to load user data", err);
       }
     };
     fetchUser();
-  }, [token]);
+  }, [authenticated]);
+  useDataRefresh(() => {
+    if (!authenticated) return;
+    API.get("/api/profile/settings").then(res => setFormData(res.data));
+  }, authenticated);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -154,9 +156,7 @@ const UserSettings = () => {
       if (formData.profilePic && formData.profilePic instanceof File)
         data.append("profilePic", formData.profilePic);
 
-      await API.put("/api/profile/settings", data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.put("/api/profile/settings", data);
       showToast("success", "Profile updated successfully!");
       setTimeout(() => navigate("/profile"), 1200);
     } catch (err) {
@@ -449,8 +449,6 @@ const UserSettings = () => {
                         autoComplete={f.autoComplete}
                         disabled={f.disabled}
                         onChange={handleChange}
-                        onFocus={() => setFocused(f.id)}
-                        onBlur={() => setFocused("")}
                         className="us-input text-sm font-medium"
                         style={{
                           color: f.disabled

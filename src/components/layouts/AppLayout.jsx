@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { createElement, useState, useEffect } from "react";
+import { useAuth } from "../../context/useAuth";
 import AppFooter from "../../components/AppFooter"
 import logo from "../../assets/financewise.png";
 
@@ -138,7 +138,7 @@ const NAV_ITEMS = [
   { path:"/category",      label:"Categories",   Icon:IconTag,       section:"main"    },
   { path:"/profile",       label:"Profile",      Icon:IconUser,      section:"account" },
   { path:"/usersettings",  label:"Settings",     Icon:IconSettings,  section:"account" },
-  { path:"/",       label:"Budgets",      Icon:IconWallet,    section:"main"    },
+  { path:"/",       label:"Budgets",      Icon:IconWallet,    section:"main", key:"budgets" },
 ];
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -147,7 +147,7 @@ const NAV_ITEMS = [
 export default function AppLayout({ children }) {
   const location          = useLocation();
   const navigate          = useNavigate();
-  const { token, logout } = useAuth();
+  const { authenticated, logout } = useAuth();
 
   const [collapsed,  setCollapsed]  = useState(false);
   const [darkMode,   setDarkMode]   = useState(false);
@@ -230,7 +230,7 @@ export default function AppLayout({ children }) {
           /* ensure icon never shrinks */
           minWidth: "28px",
         }}>
-          <Icon />
+          {createElement(Icon)}
         </span>
 
         {/* Label — only rendered when NOT mini so it truly unmounts */}
@@ -299,14 +299,14 @@ export default function AppLayout({ children }) {
         <SectionLabel label="Main" mini={mini} />
         <div style={{ display:"flex", flexDirection:"column", gap:"1px" }}>
           {NAV_ITEMS.filter(n => n.section === "main").map(n => (
-            <NavLink key={n.path} {...n} mini={mini} />
+            <NavLink key={n.key || n.path} {...n} mini={mini} />
           ))}
         </div>
 
         <SectionLabel label="Account" mini={mini} />
         <div style={{ display:"flex", flexDirection:"column", gap:"1px" }}>
           {NAV_ITEMS.filter(n => n.section === "account").map(n => (
-            <NavLink key={n.path} {...n} mini={mini} />
+            <NavLink key={n.key || n.path} {...n} mini={mini} />
           ))}
         </div>
       </nav>
@@ -349,7 +349,7 @@ export default function AppLayout({ children }) {
         </button>
 
         {/* Logout */}
-        {token && (
+        {authenticated && (
           <button onClick={handleLogout}
             title={mini ? "Logout" : undefined}
             className="al-logout"

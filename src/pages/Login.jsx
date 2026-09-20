@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { login } from "../utils/Api";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 
 /* ── Icons ────────────────────────────────────────────────────────────── */
 const IconMail = ({ className }) => (
@@ -87,9 +87,8 @@ const Login = () => {
     setMessage({ text: "", type: "" });
     const result = await login(form);
     setLoading(false);
-    if (result.token) {
-      authLogin(result.token);
-      localStorage.setItem("token", result.token);
+    if (!result.message) {
+      authLogin(result.user || null);
       setMessage({ text: "Login successful! Redirecting…", type: "success" });
       setTimeout(() => navigate("/"), 200);
     } else {

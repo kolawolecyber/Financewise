@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 import { useNavigate } from "react-router-dom";
 import { fetchBudgets, createBudget, fetchExpenses } from "../utils/Api";
 import BudgetCardWithExpenses from "../components/BudgetCardWithExpense";
 import BudgetChart from "../components/BudgetChart";
+import { useDataRefresh } from "../utils/dataSync";
 
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
@@ -125,7 +126,7 @@ const SpendBar = ({ pct, isOver }) => (
    DASHBOARD
 ══════════════════════════════════════════════════════════════════════ */
 const Dashboard = () => {
-  const { token }  = useAuth();
+  const { authenticated } = useAuth();
   const navigate   = useNavigate();
 
   const [budgets,          setBudgets]          = useState([]);
@@ -140,16 +141,21 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    if (!token) { navigate("/login"); return; }
+    if (!authenticated) { navigate("/login"); return; }
     setLoadingBudgets(true);
     setLoadingExpenses(true);
-    fetchBudgets(token)
+    fetchBudgets()
       .then(data => setBudgets(data))
       .finally(() => setLoadingBudgets(false));
-    fetchExpenses(token)
+    fetchExpenses()
       .then(data => setExpenses(data))
       .finally(() => setLoadingExpenses(false));
-  }, [token, navigate]);
+  }, [authenticated, navigate]);
+  useDataRefresh(() => {
+    if (!authenticated) return;
+    fetchBudgets().then(setBudgets).finally(() => setLoadingBudgets(false));
+    fetchExpenses().then(setExpenses).finally(() => setLoadingExpenses(false));
+  }, authenticated);
 
   const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -158,7 +164,7 @@ const Dashboard = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const data = await createBudget(token, {
+      const data = await createBudget(null, {
         ...form, amount: parseFloat(form.amount),
       });
       if (data?.id) {
@@ -618,7 +624,6 @@ const Dashboard = () => {
                     style={{ animationDelay:`${i * 70}ms` }}>
                     <BudgetCardWithExpenses
                       budget={budget}
-                      token={token}
                       onDeleteBudget={deletedId =>
                         setBudgets(prev => prev.filter(b => b.id !== deletedId))
                       }

@@ -1,102 +1,54 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL; // change to your backend port
+import API from "../services/api";
 
-const signup = async (userData) => {
-    try {
-    const res = await fetch(`${API_BASE}/api/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData),
-    });
+const getErrorMessage = (error, fallback) =>
+  error.response?.data?.message || error.response?.data?.error || error.message || fallback;
 
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.message || "Signup failed");
-    }
-    return data;
-  } catch (err) {
-    return { message: err.message || "Network error" };
-  }
-};
-
- const login = async (credentials) => {
- try {
-    const res = await fetch(`${API_BASE}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credentials),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.message || "Login failed");
-    }
-    return data;
-  } catch (err) {
-    return { message: err.message || "Network error" };
-  }
-};
-
-
-
- const fetchWithAuth = async (url, options = {}, token, logout) => {
-  const res = await fetch(`${{API_BASE}}${url}`, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (res.status === 401) {
-    logout(); // auto logout if backend rejects
-    throw new Error("Session expired");
-  }
-
-  return res.json();
-};
-
-
- const fetchBudgets = async (token) => {
-  try{
-  const res = await fetch(`${API_BASE}/api/budgets`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to fetch expenses");
-    return data;
-  } catch (err) {
-    return { message: err.message || "Network error" };
-  }
-};
-
- const createBudget = async (token, form) => {
-  const res = await fetch(`${API_BASE}/api/budgets`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(form),
-  });
-  return res.json();
-};
-
-const fetchExpenses = async (token) => {
+const signup = async userData => {
   try {
-    const res = await fetch(`${API_BASE}/api/expenses`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to fetch expenses");
+    const { data } = await API.post("/api/auth/register", userData);
     return data;
-  } catch (err) {
-    return { message: err.message || "Network error" };
+  } catch (error) {
+    return { message: getErrorMessage(error, "Signup failed") };
   }
 };
 
+const login = async credentials => {
+  try {
+    const { data } = await API.post("/api/auth/login", credentials);
+    return data;
+  } catch (error) {
+    return { message: getErrorMessage(error, "Login failed") };
+  }
+};
 
-export {login, signup, createBudget, fetchBudgets, fetchExpenses, fetchWithAuth} 
+const fetchWithAuth = async (url, options = {}, _token, logout) => {
+  try {
+    const { data } = await API.request({
+      url,
+      method: options.method || "GET",
+      data: options.body ? JSON.parse(options.body) : undefined,
+      headers: options.headers,
+    });
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) logout();
+    throw new Error(getErrorMessage(error, "Request failed"));
+  }
+};
+
+const fetchBudgets = async () => {
+  const { data } = await API.get("/api/budgets");
+  return data;
+};
+
+const createBudget = async (_token, form) => {
+  const { data } = await API.post("/api/budgets", form);
+  return data;
+};
+
+const fetchExpenses = async () => {
+  const { data } = await API.get("/api/expenses");
+  return data;
+};
+
+export { login, signup, createBudget, fetchBudgets, fetchExpenses, fetchWithAuth };

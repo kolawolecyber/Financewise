@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useCallback, useState, useEffect } from "react";
+import { useAuth } from "../context/useAuth";
 import API from "../services/api";
+import { useDataRefresh } from "../utils/dataSync";
 
 import TransactionChart from "../components/TransactionChart";
 
@@ -95,7 +96,7 @@ const Skeleton = ({ w = "100%", h = "16px", radius = "8px" }) => (
    TRANSACTION
 ══════════════════════════════════════════════════════════════════════ */
 const Transaction = () => {
-  const { token } = useAuth();
+  const { authenticated } = useAuth();
   const [transactions, setTransactions] = useState([]);
   const [loading,      setLoading]      = useState(true);
   const [categories,   setCategories]   = useState([]);
@@ -106,25 +107,25 @@ const Transaction = () => {
     title: "", amount: "", type: "expense", categoryId: "", date: "",
   });
 
+  const fetchTransactions = useCallback(async () => {
+    const res = await API.get("/api/transactions");
+    setTransactions(res.data);
+  }, []);
+
+  const fetchCategories = useCallback(async () => {
+    const res = await API.get("/api/categories");
+    setCategories(res.data);
+  }, []);
+
   useEffect(() => {
     setLoading(true);
     fetchTransactions().finally(() => setLoading(false));
     fetchCategories();
-  }, []);
-
-  const fetchTransactions = async () => {
-    const res = await API.get("/api/transactions", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setTransactions(res.data);
-  };
-
-  const fetchCategories = async () => {
-    const res = await API.get("/api/categories", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setCategories(res.data);
-  };
+  }, [fetchCategories, fetchTransactions]);
+  useDataRefresh(() => {
+    fetchTransactions();
+    fetchCategories();
+  }, authenticated);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -135,10 +136,7 @@ const Transaction = () => {
     try {
       const dateParts    = form.date.split("-");
       const formattedDate = `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`;
-      await API.post("/api/transactions",
-        { ...form, date: formattedDate },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await API.post("/api/transactions", { ...form, date: formattedDate });
       setForm({ title: "", amount: "", type: "expense", categoryId: "", date: "" });
       fetchTransactions();
     } catch (err) {
@@ -151,9 +149,7 @@ const Transaction = () => {
   const handleDelete = async (id) => {
     setDeletingId(id);
     try {
-      await API.delete(`/api/transactions/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/api/transactions/${id}`);
       setTransactions(prev => prev.filter(t => t.id !== id));
     } catch (err) {
       console.error("Error deleting transaction", err);
@@ -643,7 +639,7 @@ const Transaction = () => {
                       color: balance >= 0 ? "#6366f1" : "#dc2626",
                       bg: balance >= 0 ? "rgba(99,102,241,0.08)" : "rgba(239,68,68,0.08)",
                       icon: IconWallet },
-                  ].map((r, i) => (
+                  ].map(r => (
                     <div key={r.label}
                       className="flex items-center justify-between px-3.5 py-3 rounded-xl"
                       style={{ background: r.bg }}>

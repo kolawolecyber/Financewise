@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "../context/useAuth";
 import { useNavigate } from "react-router-dom";
 
 import API from "../services/api";
+import { useDataRefresh } from "../utils/dataSync";
 import GoalDonut from "../components/GoalDonut";
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
@@ -136,7 +137,7 @@ const ProgressBar = ({ pct, color }) => (
    GOALS
 ══════════════════════════════════════════════════════════════════════ */
 const Goals = () => {
-  const { token } = useAuth();
+  const { authenticated } = useAuth();
   const navigate  = useNavigate();
 
   const [goals,         setGoals]         = useState([]);
@@ -156,25 +157,24 @@ const Goals = () => {
     title: "", targetAmount: "", dueDate: "",
   });
 
-  const activeGoals   = goals.filter(g => g.savedAmount < g.targetAmount);
-  const achievedGoals = goals.filter(g => g.savedAmount >= g.targetAmount);
-
-  useEffect(() => {
-    if (!token) { navigate("/pages/login"); return; }
-    setLoading(true);
-    fetchGoals().finally(() => setLoading(false));
-  }, [token]);
-
-  const fetchGoals = async () => {
+  const fetchGoals = useCallback(async () => {
     try {
-      const res = await API.get("/api/goals", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await API.get("/api/goals");
       setGoals(res.data);
     } catch (err) {
       console.error("Failed to fetch goals:", err);
     }
-  };
+  }, []);
+
+  const activeGoals   = goals.filter(g => g.savedAmount < g.targetAmount);
+  const achievedGoals = goals.filter(g => g.savedAmount >= g.targetAmount);
+
+  useEffect(() => {
+    if (!authenticated) { navigate("/login"); return; }
+    setLoading(true);
+    fetchGoals().finally(() => setLoading(false));
+  }, [fetchGoals, navigate, authenticated]);
+  useDataRefresh(fetchGoals, authenticated);
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -189,9 +189,7 @@ const Goals = () => {
         targetAmount: parseFloat(form.targetAmount),
         targetDate: formattedDate,
       };
-      const res = await API.post("/api/goals", goalData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await API.post("/api/goals", goalData);
       setGoals(prev => [...prev, res.data]);
       setForm({ title: "", targetAmount: "", dueDate: "" });
     } catch (err) {
@@ -211,7 +209,6 @@ const Goals = () => {
       const res = await API.put(
         `/api/goals/${goalId}`,
         { title: editForm.title, targetAmount: parseFloat(editForm.targetAmount), targetDate: formattedDate },
-        { headers: { Authorization: `Bearer ${token}` } }
       );
       setGoals(prev => prev.map(g => g.id === goalId ? { ...g, ...res.data } : g));
       setEditingGoalId(null);
@@ -229,9 +226,7 @@ const Goals = () => {
     if (!amount || amount <= 0) return;
     setSavingId(goalId);
     try {
-      const res = await API.put(`/api/goals/${goalId}/save`, { amount }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await API.put(`/api/goals/${goalId}/save`, { amount });
       setGoals(prev => prev.map(g =>
         g.id === goalId ? { ...g, savedAmount: res.data.savedAmount } : g
       ));
@@ -246,9 +241,7 @@ const Goals = () => {
   const handleDelete = async id => {
     setDeletingId(id);
     try {
-      await API.delete(`/api/goals/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/api/goals/${id}`);
       setGoals(prev => prev.filter(g => g.id !== id));
     } catch (err) {
       console.error("Error deleting goal:", err);

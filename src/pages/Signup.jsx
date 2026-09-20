@@ -136,7 +136,7 @@ const Signup = () => {
     }
     const result = await signup(form);
     setLoading(false);
-    if (result.token) {
+    if (!result.message && !result.error) {
       setMessage("Account created successfully!");
       setTimeout(() => navigate("/login"), 500);
     } else {

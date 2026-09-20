@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "../context/useAuth";
 import { useNavigate } from "react-router-dom";
 
 import GoalDonut from "../components/GoalDonut";
-import axios from "axios";
+import API from "../services/api";
 import dayjs from "dayjs";
+import { useDataRefresh } from "../utils/dataSync";
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
 const IconTarget = ({ className, style }) => (
@@ -106,7 +107,7 @@ const MiniBar = ({ pct, color }) => (
    GOAL DASHBOARD
 ══════════════════════════════════════════════════════════════════════ */
 const GoalDashboard = () => {
-  const { token }  = useAuth();
+  const { authenticated } = useAuth();
   const navigate   = useNavigate();
 
   const [goals,          setGoals]          = useState([]);
@@ -114,18 +115,9 @@ const GoalDashboard = () => {
   const [filteredGoals,  setFilteredGoals]  = useState([]);
   const [loading,        setLoading]        = useState(true);
 
-  useEffect(() => {
-    if (!token) { navigate("/login"); return; }
-    setLoading(true);
-    fetchGoals().finally(() => setLoading(false));
-  }, [token]);
-
-  const fetchGoals = async () => {
+  const fetchGoals = useCallback(async () => {
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/goals`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await API.get("/api/goals");
       if (Array.isArray(res.data)) {
         setGoals(res.data);
         setFilteredGoals(res.data);
@@ -135,7 +127,14 @@ const GoalDashboard = () => {
     } catch (err) {
       console.error("Error fetching goals:", err);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!authenticated) { navigate("/login"); return; }
+    setLoading(true);
+    fetchGoals().finally(() => setLoading(false));
+  }, [fetchGoals, navigate, authenticated]);
+  useDataRefresh(fetchGoals, authenticated);
 
   const handleFilterChange = (e) => {
     const selectedMonth = e.target.value;

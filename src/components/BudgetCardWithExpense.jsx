@@ -111,7 +111,7 @@ const Skeleton = ({ w = "100%", h = "14px", radius = "6px" }) => (
 /* ══════════════════════════════════════════════════════════════════════
    BUDGET CARD WITH EXPENSES
 ══════════════════════════════════════════════════════════════════════ */
-const BudgetCardWithExpenses = ({ budget, token, onDeleteBudget }) => {
+const BudgetCardWithExpenses = ({ budget, onDeleteBudget }) => {
 
   const [expenses,    setExpenses]    = useState([]);
   const [loadingExp,  setLoadingExp]  = useState(true);
@@ -145,9 +145,7 @@ const BudgetCardWithExpenses = ({ budget, token, onDeleteBudget }) => {
     const fetchExpenses = async () => {
       setLoadingExp(true);
       try {
-        const res = await API.get(`/api/expenses/${budget.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await API.get(`/api/expenses/${budget.id}`);
         setExpenses(res.data);
       } catch (err) {
         console.error("Failed to fetch expenses:", err);
@@ -156,7 +154,7 @@ const BudgetCardWithExpenses = ({ budget, token, onDeleteBudget }) => {
       }
     };
     fetchExpenses();
-  }, [budget.id, token]);
+  }, [budget.id]);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -172,7 +170,7 @@ const BudgetCardWithExpenses = ({ budget, token, onDeleteBudget }) => {
         date:        new Date().toISOString(),
         userId:      budget.userId,
         budgetId:    budget.id,
-      }, { headers: { Authorization: `Bearer ${token}` } });
+      });
 
       if (res.data?.id) {
         setExpenses(prev => [...prev, res.data]);
@@ -189,9 +187,7 @@ const BudgetCardWithExpenses = ({ budget, token, onDeleteBudget }) => {
   const handleDeleteExpense = async (expenseId) => {
     setDeletingExp(expenseId);
     try {
-      await API.delete(`/api/expenses/${expenseId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/api/expenses/${expenseId}`);
       setExpenses(prev => prev.filter(e => e.id !== expenseId));
     } catch (err) {
       console.error("Failed to delete expense:", err);
@@ -208,7 +204,7 @@ const BudgetCardWithExpenses = ({ budget, token, onDeleteBudget }) => {
         amount:      editForm.amount,
         date:        new Date().toISOString(),
         category:    budget.category,
-      }, { headers: { Authorization: `Bearer ${token}` } });
+      });
       setExpenses(prev => prev.map(e => e.id === expenseId ? res.data : e));
       setEditingId(null);
     } catch (err) {
@@ -222,9 +218,7 @@ const BudgetCardWithExpenses = ({ budget, token, onDeleteBudget }) => {
   const handleDeleteBudget = async () => {
     setDeletingBud(true);
     try {
-      await API.delete(`/api/budgets/${budget.id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/api/budgets/${budget.id}`);
       if (onDeleteBudget) onDeleteBudget(budget.id);
     } catch (err) {
       console.error("Failed to delete budget:", err);

@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useState, useEffect, useCallback } from "react";
+import { useAuth } from "../context/useAuth";
 
 import API from "../services/api";
+import { useDataRefresh } from "../utils/dataSync";
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
 const IconPlus = ({ className, style }) => (
@@ -94,7 +95,7 @@ const SWATCHES = [
    CATEGORY
 ══════════════════════════════════════════════════════════════════════ */
 const Category = () => {
-  const { token } = useAuth();
+  const { authenticated } = useAuth();
 
   const [categories, setCategories] = useState([]);
   const [form,       setForm]       = useState({ name:"", type:"expense", color:"#6366f1" });
@@ -104,20 +105,19 @@ const Category = () => {
   const [focused,    setFocused]    = useState("");
   const [activeTab,  setActiveTab]  = useState("all"); // "all" | "expense" | "income"
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
-      const res = await API.get("/api/categories", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await API.get("/api/categories");
       setCategories(res.data);
     } catch (err) {
       console.error("Error fetching categories", err);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  useEffect(() => { fetchCategories(); }, []);
+  useEffect(() => { fetchCategories(); }, [fetchCategories]);
+  useDataRefresh(fetchCategories, authenticated);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -126,9 +126,7 @@ const Category = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await API.post("/api/categories", form, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.post("/api/categories", form);
       setForm({ name: "", type: "expense", color: "#6366f1" });
       fetchCategories();
     } catch (err) {
@@ -141,9 +139,7 @@ const Category = () => {
   const handleDelete = async (id) => {
     setDeletingId(id);
     try {
-      await API.delete(`/api/categories/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/api/categories/${id}`);
       setCategories(prev => prev.filter(c => c.id !== id));
     } catch (err) {
       console.error("Error deleting category", err);

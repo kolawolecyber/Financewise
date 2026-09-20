@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useDataRefresh } from "../utils/dataSync";
 
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
@@ -76,7 +77,7 @@ const Skeleton = ({ w = "100%", h = "16px", radius = "8px" }) => (
    PROFILE
 ══════════════════════════════════════════════════════════════════════ */
 const Profile = () => {
-  const { user, token, setUser } = useAuth();
+  const { user, authenticated, setUser } = useAuth();
   const navigate = useNavigate();
   const [loading,  setLoading]  = useState(true);
   const [formData, setFormData] = useState(user || {});
@@ -84,11 +85,9 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       setLoading(true);
-      if (!token) return;
+      if (!authenticated) return;
       try {
-        const res = await API.get("/api/profile/settings", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await API.get("/api/profile/settings");
         setFormData(res.data);
         setUser(res.data);
       } catch (err) {
@@ -98,7 +97,14 @@ const Profile = () => {
       }
     };
     fetchUser();
-  }, [token, setUser]);
+  }, [authenticated, setUser]);
+  useDataRefresh(() => {
+    if (!authenticated) return;
+    API.get("/api/profile/settings").then(res => {
+      setFormData(res.data);
+      setUser(res.data);
+    });
+  }, authenticated);
 
   const initials = formData?.name
     ? formData.name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase()

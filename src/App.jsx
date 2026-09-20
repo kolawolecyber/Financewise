@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import AppLayout from "./components/layouts/AppLayout";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -10,7 +10,7 @@ import Transaction from './pages/Transaction';
 import Category from './pages/Category';
 import Profile from './pages/Profile';
 import UserSettings from './pages/UserSettings';
-import { AuthProvider } from './context/AuthContext';
+import { useAuth } from './context/useAuth';
 import GlobalLoader from './components/GlobalLoader';
 import { useEffect, useState } from "react";
 import { pingBackend } from "./utils/PingBackend";
@@ -167,12 +167,11 @@ function ServerWakeScreen() {
 
 /* ─── App ─────────────────────────────────────────────────────────── */
 function App() {
-  const [serverAwake, setServerAwake] = useState(false);
   const [loading,     setLoading]     = useState(true);
 
   useEffect(() => {
     pingBackend().then(ok => {
-      setServerAwake(ok);
+      void ok;
       setLoading(false);
     });
   }, []);
@@ -180,10 +179,12 @@ function App() {
   if (loading) return <ServerWakeScreen />;
 
   return (
-    <AuthProvider>
-      <Router>
-        <GlobalLoader />
-        <Routes>
+    <Router>
+      <GlobalLoader />
+      <Routes>
+        <Route path="/login"  element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route element={<ProtectedRoutes />}>
           <Route path="/"               element={<AppLayout><Dashboard /></AppLayout>} />
           <Route path="/goals"          element={<AppLayout><Goals /></AppLayout>} />
           <Route path="/goal-dashboard" element={<AppLayout><GoalDashboard /></AppLayout>} />
@@ -191,12 +192,17 @@ function App() {
           <Route path="/transactions"   element={<AppLayout><Transaction /></AppLayout>} />
           <Route path="/profile"        element={<AppLayout><Profile /></AppLayout>} />
           <Route path="/usersettings"   element={<AppLayout><UserSettings /></AppLayout>} />
-          <Route path="/login"          element={<Login />} />
-          <Route path="/signup"         element={<Signup />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
+}
+
+function ProtectedRoutes() {
+  const { authenticated, loading } = useAuth();
+  if (loading) return null;
+  return authenticated ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
 export default App;
